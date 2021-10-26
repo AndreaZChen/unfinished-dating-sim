@@ -14,6 +14,9 @@ type t = {
   yksiExpression: Character.expression,
   kaxigExpression: Character.expression,
   kolmeExpression: Character.expression,
+  yksiAnimationClass: string,
+  kaxigAnimationClass: string,
+  kolmeAnimationClass: string,
   text: React.element,
   displayedChoices: option(array(Script.choice)),
 };
@@ -28,6 +31,9 @@ let defaultState = {
   yksiExpression: Character.Neutral,
   kaxigExpression: Character.Neutral,
   kolmeExpression: Character.Neutral,
+  yksiAnimationClass: "",
+  kaxigAnimationClass: "",
+  kolmeAnimationClass: "",
   text: React.null,
   displayedChoices: None,
 };
@@ -57,6 +63,9 @@ let reducer = (action: action, state: t) =>
               {
                 ...state,
                 currentSpeakingCharacter: Some(character),
+                yksiAnimationClass: character == Yksi ? "shakeX" : "",
+                kaxigAnimationClass: character == Kaxig ? "rubberBand" : "",
+                kolmeAnimationClass: character == Kolme ? "headShake" : "",
                 text:
                   <>
                     <FadeInDiv
@@ -100,7 +109,13 @@ let reducer = (action: action, state: t) =>
               },
             )
           | Choice(choices) =>
-            ReactUpdate.Update({...state, displayedChoices: Some(choices)})
+            ReactUpdate.Update({
+              ...state,
+              displayedChoices: Some(choices),
+              yksiAnimationClass: "",
+              kaxigAnimationClass: "",
+              kolmeAnimationClass: "",
+            })
           | GoToScript(newScript) =>
             ReactUpdate.UpdateWithSideEffects(
               {...state, script: newScript},

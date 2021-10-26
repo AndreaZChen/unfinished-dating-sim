@@ -120,6 +120,19 @@ module Styles = {
   );
 };
 
+module CharacterImage = {
+  [@react.component]
+  let make = (~src: string, ~isFaded: bool, ~animationClass: string) =>
+    <img
+      className={
+        Styles.image(~isFaded)
+        ++ " animate__animated animate__"
+        ++ animationClass
+      }
+      src
+    />;
+};
+
 [@react.component]
 let make = () => {
   let (globalState, globalDispatch) =
@@ -165,21 +178,25 @@ let make = () => {
     <HelpButton globalDispatch />
     <ScrollToTopProvider value=scrollToTop>
       <div className=Styles.imageDiv>
-        <img
-          className={Styles.image(~isFaded=isDisplayingChoices)}
-          src="../assets/characters/body.png"
-        />
-        <img
-          className={Styles.image(~isFaded=isDisplayingChoices)}
+        <CharacterImage
+          isFaded=isDisplayingChoices
+          animationClass={globalState.yksiAnimationClass}
           src={Character.getImage(Yksi, globalState.yksiExpression)}
         />
-        <img
-          className={Styles.image(~isFaded=isDisplayingChoices)}
+        <CharacterImage
+          isFaded=isDisplayingChoices
+          animationClass={globalState.kaxigAnimationClass}
           src={Character.getImage(Kaxig, globalState.kaxigExpression)}
         />
-        <img
-          className={Styles.image(~isFaded=isDisplayingChoices)}
+        <CharacterImage
+          isFaded=isDisplayingChoices
+          animationClass={globalState.kolmeAnimationClass}
           src={Character.getImage(Kolme, globalState.kolmeExpression)}
+        />
+        <CharacterImage
+          isFaded=isDisplayingChoices
+          animationClass=""
+          src="../assets/characters/body.png"
         />
         {switch (globalState.displayedChoices) {
          | Some(choices) =>
