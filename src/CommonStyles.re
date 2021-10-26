@@ -6,7 +6,7 @@ let defaultBorderHex = "000000";
 let defaultTextHex = "000000";
 let defaultClickableTextHex = "B60024";
 let defaultClickableHoveredTextHex = "DC143C";
-
+let textBoxBackgroundColorHex = "ffffff";
 let yksiHex = "85009f";
 let kaxigHex = "ad0000";
 let kolmeHex = "003ef7";

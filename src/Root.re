@@ -1,6 +1,8 @@
 module Styles = {
   open Css;
 
+  let fadeInTime = 1000;
+
   let rootWrapper = (~backgroundColorHex: option(string)) =>
     style([
       overflow(`hidden),
@@ -45,6 +47,7 @@ module Styles = {
 
   let imageDiv =
     style([
+      position(`relative),
       marginTop(`px(50)),
       display(`grid),
       justifyContent(`center),
@@ -55,8 +58,10 @@ module Styles = {
       minHeight(`px(200)),
     ]);
 
-  let image =
+  let image = (~isFaded: bool) =>
     style([
+      opacity(isFaded ? 0.2 : 1.),
+      transition(~duration=fadeInTime, "opacity"),
       gridRow(1, 2),
       gridColumn(1, 2),
       minWidth(`zero),
@@ -69,6 +74,7 @@ module Styles = {
     style([
       flexGrow(1.),
       border(`vmax(0.4), `solid, `hex(CommonStyles.defaultTextHex)),
+      backgroundColor(`hex(CommonStyles.textBoxBackgroundColorHex)),
       padding(`vmax(0.4)),
       overflowX(`hidden),
       overflowY(`auto),
@@ -79,6 +85,25 @@ module Styles = {
       marginBottom(`px(50)),
       minHeight(`percent(25.)),
       userSelect(`none),
+    ]);
+
+  let choicesDiv =
+    style([
+      position(`absolute),
+      height(`percent(100.)),
+      width(`auto),
+      display(`flex),
+      flexDirection(`column),
+      justifyContent(`spaceEvenly),
+      alignItems(`flexStart),
+    ]);
+
+  let choiceItem =
+    style([
+      border(`vmax(0.4), `solid, `hex(CommonStyles.defaultTextHex)),
+      backgroundColor(`hex(CommonStyles.textBoxBackgroundColorHex)),
+      width(`percent(100.)),
+      padding(`vmax(0.4)),
     ]);
 
   global(
@@ -129,6 +154,8 @@ let make = () => {
       [|globalDispatch|],
     );
 
+  let isDisplayingChoices = Belt.Option.isSome(globalState.displayedChoices);
+
   <div
     className={Styles.rootWrapper(
       ~backgroundColorHex=globalState.backgroundColorHex,
@@ -136,19 +163,38 @@ let make = () => {
     <HelpButton globalDispatch />
     <ScrollToTopProvider value=scrollToTop>
       <div className=Styles.imageDiv>
-        <img className=Styles.image src="../assets/characters/body.png" />
         <img
-          className=Styles.image
+          className={Styles.image(~isFaded=isDisplayingChoices)}
+          src="../assets/characters/body.png"
+        />
+        <img
+          className={Styles.image(~isFaded=isDisplayingChoices)}
           src={Character.getImage(Yksi, globalState.yksiExpression)}
         />
         <img
-          className=Styles.image
+          className={Styles.image(~isFaded=isDisplayingChoices)}
           src={Character.getImage(Kaxig, globalState.kaxigExpression)}
         />
         <img
-          className=Styles.image
+          className={Styles.image(~isFaded=isDisplayingChoices)}
           src={Character.getImage(Kolme, globalState.kolmeExpression)}
         />
+        {switch (globalState.displayedChoices) {
+         | Some(choices) =>
+           <div className=Styles.choicesDiv>
+             {Belt.Array.mapWithIndex(choices, (index, choice) =>
+                <FadeInDiv
+                  fadeInTime=Styles.fadeInTime
+                  key={string_of_int(index)}
+                  className=Styles.choiceItem
+                  onClick={_ => globalDispatch(ChoiceSelected(index))}>
+                  <Text> {"> " ++ choice.text} </Text>
+                </FadeInDiv>
+              )
+              ->React.array}
+           </div>
+         | None => React.null
+         }}
       </div>
       <div
         role="button"
