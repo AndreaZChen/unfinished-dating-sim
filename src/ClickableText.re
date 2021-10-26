@@ -18,6 +18,7 @@ module Styles = {
 let make = (~onClick: unit => unit, ~text: string, ~className=?) => {
   let onClick = React.useCallback1(_ => onClick(), [|onClick|]);
   <span
+    role="button"
     className={Belt.Option.getWithDefault(className, Styles.defaultText)}
     onClick>
     {React.string(text)}

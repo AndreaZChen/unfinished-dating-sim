@@ -3,23 +3,26 @@ type t =
   | Kaxig
   | Kolme;
 
-type yksiExpression =
-  | Neutral;
-
-type kaxigExpression =
-  | Neutral;
-
-type kolmeExpression =
+type expression =
   | Neutral
   | Embarrassed;
 
+let getName = character =>
+  switch (character) {
+  | Yksi => "Yksi"
+  | Kaxig => "Kaxig"
+  | Kolme => "Kolme"
+  };
+
 let charactersFolder = "../assets/characters/";
 
-let getKolmeImage = kolmeExpression =>
+let getImage = (character: t, expression: expression) =>
   charactersFolder
   ++ (
-    switch (kolmeExpression) {
-    | Neutral => "kolme_neutral.png"
-    | Embarrassed => "kolme_embarrassed.png"
+    switch (character, expression) {
+    | (Yksi, Neutral | Embarrassed) => "yksi_neutral.png"
+    | (Kaxig, Neutral | Embarrassed) => "kaxig_neutral.png"
+    | (Kolme, Neutral) => "kolme_neutral.png"
+    | (Kolme, Embarrassed) => "kolme_embarrassed.png"
     }
   );

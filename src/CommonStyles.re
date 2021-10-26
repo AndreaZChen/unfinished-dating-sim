@@ -10,22 +10,11 @@ let defaultClickableHoveredTextHex = "DC143C";
 let yksiHex = "85009f";
 let kaxigHex = "ad0000";
 let kolmeHex = "003ef7";
+let commentHex = "949494";
 
 let dialogZIndex = 1000;
 
 let scrollbarWidth = 20;
-
-let buttonsArea =
-  style([
-    width(`percent(100.)),
-    display(`flex),
-    flexWrap(`wrap),
-    justifyContent(`spaceAround),
-    alignItems(`center),
-    borderTop(`px(1), `solid, `hex(defaultBorderHex)),
-    paddingTop(`px(10)),
-    marginTop(`px(10)),
-  ]);
 
 global(
   "button",

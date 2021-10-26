@@ -1,22 +1,41 @@
+module Styles = {
+  open Css;
+
+  let buttonsArea =
+    style([
+      width(`percent(100.)),
+      display(`flex),
+      flexWrap(`wrap),
+      justifyContent(`spaceAround),
+      alignItems(`center),
+      borderTop(`px(1), `solid, `hex(CommonStyles.defaultBorderHex)),
+      paddingTop(`px(10)),
+      marginTop(`px(10)),
+    ]);
+};
+
 let helpText = {js|INSTRUCTIONS:
 
-Playing this game is fairly straightforward! Simply click on the buttons to advance the story in the indicated way. There may be other ways to progress, if you keep an eye out.
+Click/touch inside the text box to advance the text. When presented with a choice, click/touch your preferred option it to select it.
 
-Ⓒ 2020 Andrea Zonghao Chen|js};
-
+Ⓒ 2021 Andrea Zonghao Chen|js};
 
 [@react.component]
 let make = (~onClose: unit => unit) => {
-  let resetLocalStorage = React.useCallback0(_ => {
-    Dom.Storage.clear(Dom.Storage.localStorage);
-    Webapi.Dom.location->Webapi.Dom.Location.reloadWithForce;
-  });
+  let _resetLocalStorage =
+    React.useCallback0(_ => {
+      Dom.Storage.clear(Dom.Storage.localStorage);
+      Webapi.Dom.location->Webapi.Dom.Location.reloadWithForce;
+    });
 
   <Dialog onClose>
-      <Text>helpText</Text>
-    <div className=CommonStyles.buttonsArea>
-      <button onClick=resetLocalStorage>{React.string("Reset save")}</button>
-      <button onClick={_ => onClose()}>{React.string("Close")}</button>
+    <Text> helpText </Text>
+    <br />
+    <Text customColorHex=CommonStyles.commentHex>
+      "// TODO: add settings? save/load system?"
+    </Text>
+    <div className=Styles.buttonsArea>
+      <button onClick={_ => onClose()}> {React.string("Close")} </button>
     </div>
   </Dialog>;
 };

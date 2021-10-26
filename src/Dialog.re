@@ -1,29 +1,31 @@
 module Styles = {
   open Css;
 
-  let overlay = style([
-    zIndex(CommonStyles.dialogZIndex),
-    width(`percent(100.)),
-    height(`percent(100.)),
-    position(`absolute),
-    top(`px(0)),
-    left(`px(0)),
-    background(`rgba(0, 0, 0, 0.5)),
-    display(`flex),
-    alignItems(`center),
-    justifyContent(`center),
-  ]);
+  let overlay =
+    style([
+      zIndex(CommonStyles.dialogZIndex),
+      width(`percent(100.)),
+      height(`percent(100.)),
+      position(`absolute),
+      top(`zero),
+      left(`zero),
+      background(`rgba((0, 0, 0, 0.5))),
+      display(`flex),
+      alignItems(`center),
+      justifyContent(`center),
+    ]);
 
-  let content = style([
-    zIndex(CommonStyles.dialogZIndex + 1),
-    maxWidth(`percent(80.)),
-    maxHeight(`percent(80.)),
-    backgroundColor(`hex(CommonStyles.defaultBackgroundHex)),
-    border(`px(4), solid, `hex(CommonStyles.defaultBorderHex)),
-    padding(`px(25)),
-    whiteSpace(`preWrap),
-  ]);
-}
+  let content =
+    style([
+      zIndex(CommonStyles.dialogZIndex + 1),
+      maxWidth(`percent(80.)),
+      maxHeight(`percent(80.)),
+      backgroundColor(`hex(CommonStyles.defaultBackgroundHex)),
+      border(`px(4), solid, `hex(CommonStyles.defaultBorderHex)),
+      padding(`px(25)),
+      whiteSpace(`preWrap),
+    ]);
+};
 
 [@react.component]
 let make = (~onClose: unit => unit, ~children) => {
@@ -33,5 +35,5 @@ let make = (~onClose: unit => unit, ~children) => {
     <div className=Styles.content onClick=ReactEvent.Synthetic.stopPropagation>
       children
     </div>
-  </FadeInDiv>
-}
+  </FadeInDiv>;
+};

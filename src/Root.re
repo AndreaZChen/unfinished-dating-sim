@@ -1,7 +1,7 @@
 module Styles = {
   open Css;
 
-  let rootWrapper = (~backgroundColorHex) =>
+  let rootWrapper = (~backgroundColorHex: option(string)) =>
     style([
       overflow(`hidden),
       position(`absolute),
@@ -18,10 +18,26 @@ module Styles = {
         `linearGradient((
           `deg(90.),
           [
-            (`percent(0.), `hex(backgroundColorHex)),
+            (
+              `percent(0.),
+              `hex(
+                Belt.Option.getWithDefault(
+                  backgroundColorHex,
+                  CommonStyles.defaultBackgroundHex,
+                ),
+              ),
+            ),
             (`percent(5.), `hex(CommonStyles.defaultBackgroundHex)),
             (`percent(95.), `hex(CommonStyles.defaultBackgroundHex)),
-            (`percent(100.), `hex(backgroundColorHex)),
+            (
+              `percent(100.),
+              `hex(
+                Belt.Option.getWithDefault(
+                  backgroundColorHex,
+                  CommonStyles.defaultBackgroundHex,
+                ),
+              ),
+            ),
           ],
         )),
       ),
@@ -36,6 +52,7 @@ module Styles = {
       gridTemplateRows([`fr(1.)]),
       gridTemplateColumns([`auto]),
       overflow(`hidden),
+      minHeight(`px(200)),
     ]);
 
   let image =
@@ -50,40 +67,43 @@ module Styles = {
 
   let dialogueArea =
     style([
+      flexGrow(1.),
+      border(`vmax(0.4), `solid, `hex(CommonStyles.defaultTextHex)),
+      padding(`vmax(0.4)),
       overflowX(`hidden),
       overflowY(`auto),
       position(`relative),
       display(`flex),
       flexDirection(`column),
       width(`percent(80.)),
-      maxHeight(`percent(50.)),
-      minHeight(`px(200)),
+      marginBottom(`px(50)),
+      minHeight(`percent(25.)),
+      userSelect(`none),
     ]);
 
   global(
     "body",
     [
       fontFamily("Lato"),
+      fontSize(`px(35)),
+      media("(max-width: 768px)", [fontSize(`px(17))]),
       lineHeight(`abs(1.8)),
       backgroundColor(`hex(CommonStyles.defaultBackgroundHex)),
     ],
   );
 };
 
-let getInitialState: unit => GlobalState.t =
-  () =>
-    GlobalState.loadState()
-    ->Belt.Option.getWithDefault({
-        ...GlobalState.defaultState,
-        currentSceneId: InitialScene.Scene.id,
-      });
-
 [@react.component]
 let make = () => {
   let (globalState, globalDispatch) =
-    ReactUpdate.useReducer(getInitialState(), GlobalState.reducer);
+    ReactUpdate.useReducer(GlobalState.defaultState, GlobalState.reducer);
 
   let centralColumnRef = React.useRef(Js.Nullable.null);
+
+  React.useEffect0(() => {
+    globalDispatch(ScriptAdvanced);
+    None;
+  });
 
   let scrollToTop =
     React.useCallback1(
@@ -103,15 +123,15 @@ let make = () => {
       [|globalDispatch|],
     );
 
-  let (module CurrentScene): (module Interfaces.Scene) =
-    React.useMemo1(
-      () => SceneUtils.getSceneById(globalState.currentSceneId),
-      [|globalState.currentSceneId|],
+  let onDialogueClicked =
+    React.useCallback1(
+      _ => globalDispatch(ScriptAdvanced),
+      [|globalDispatch|],
     );
 
   <div
     className={Styles.rootWrapper(
-      ~backgroundColorHex=CurrentScene.backgroundColorHex,
+      ~backgroundColorHex=globalState.backgroundColorHex,
     )}>
     <HelpButton globalDispatch />
     <ScrollToTopProvider value=scrollToTop>
@@ -119,21 +139,23 @@ let make = () => {
         <img className=Styles.image src="../assets/characters/body.png" />
         <img
           className=Styles.image
-          src="../assets/characters/yksi_neutral.png"
+          src={Character.getImage(Yksi, globalState.yksiExpression)}
         />
         <img
           className=Styles.image
-          src="../assets/characters/kaxig_neutral.png"
+          src={Character.getImage(Kaxig, globalState.kaxigExpression)}
         />
         <img
           className=Styles.image
-          src="../assets/characters/kolme_neutral.png"
+          src={Character.getImage(Kolme, globalState.kolmeExpression)}
         />
       </div>
       <div
+        role="button"
         className=Styles.dialogueArea
+        onClick=onDialogueClicked
         ref={ReactDOMRe.Ref.domRef(centralColumnRef)}>
-        {CurrentScene.renderer(~globalState, ~globalDispatch)}
+        {globalState.text}
       </div>
     </ScrollToTopProvider>
     {globalState.isShowingHelpDialog

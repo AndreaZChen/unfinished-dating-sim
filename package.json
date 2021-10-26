@@ -1,5 +1,5 @@
 {
-  "name": "adventure",
+  "name": "abandoned-dating-sim",
   "version": "0.1.0",
   "scripts": {
     "bsb": "bsb -make-world",
