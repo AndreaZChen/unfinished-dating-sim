@@ -41,33 +41,52 @@ let reducer = (action: action, state: t) =>
       ? ReactUpdate.NoUpdate
       : (
         switch (state.script) {
-        | [] => ReactUpdate.NoUpdate
+        | [] =>
+          ReactUpdate.UpdateWithSideEffects(
+            defaultState,
+            self => {
+              self.send(ScriptAdvanced);
+              None;
+            },
+          )
         | [nextEvent, ...futureEvents] =>
           let state = {...state, script: futureEvents};
           switch (nextEvent) {
           | Speech(character, text) =>
-            ReactUpdate.Update({
-              ...state,
-              currentSpeakingCharacter: Some(character),
-              text:
-                <>
-                  <FadeInDiv
-                    fadeInTime={
-                      switch (state.currentSpeakingCharacter) {
-                      | Some(currentCharacter) =>
-                        currentCharacter == character ? 0 : textFadeInTime
-                      | None => textFadeInTime
-                      }
-                    }>
-                    <Text character>
-                      {Character.getName(character) ++ ": "}
-                    </Text>
-                  </FadeInDiv>
-                  <FadeInDiv key=text fadeInTime=textFadeInTime>
-                    <Text> text </Text>
-                  </FadeInDiv>
-                </>,
-            })
+            ReactUpdate.UpdateWithSideEffects(
+              {
+                ...state,
+                currentSpeakingCharacter: Some(character),
+                text:
+                  <>
+                    <FadeInDiv
+                      fadeInTime={
+                        switch (state.currentSpeakingCharacter) {
+                        | Some(currentCharacter) =>
+                          currentCharacter == character ? 0 : textFadeInTime
+                        | None => textFadeInTime
+                        }
+                      }>
+                      <Text character>
+                        {Character.getName(character) ++ ": "}
+                      </Text>
+                    </FadeInDiv>
+                    <FadeInDiv key=text fadeInTime=textFadeInTime>
+                      <Text> text </Text>
+                    </FadeInDiv>
+                  </>,
+              },
+              _self => {
+                let sound =
+                  switch (character) {
+                  | Yksi => Sounds.yksiNoise1
+                  | Kaxig => Sounds.kaxigNoise1
+                  | Kolme => Sounds.kolmeNoise1
+                  };
+                Sounds.play(sound);
+                None;
+              },
+            )
           | ExpressionChange(character, expression) =>
             ReactUpdate.UpdateWithSideEffects(
               switch (character) {

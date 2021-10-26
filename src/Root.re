@@ -93,6 +93,7 @@ module Styles = {
       height(`percent(100.)),
       width(`auto),
       display(`flex),
+      flexWrap(`wrap),
       flexDirection(`column),
       justifyContent(`spaceEvenly),
       alignItems(`flexStart),
@@ -104,6 +105,7 @@ module Styles = {
       backgroundColor(`hex(CommonStyles.textBoxBackgroundColorHex)),
       width(`percent(100.)),
       padding(`vmax(0.4)),
+      marginRight(`px(10)),
     ]);
 
   global(
