@@ -12,6 +12,23 @@ let dateKaxigScript: list(Script.event) = [
 let dateKolmeScript: list(Script.event) = [
   ExpressionChange(Kolme, Embarrassed),
   Speech(Kolme, "R-really? Me?"),
+  Speech(
+    Kolme,
+    "I'm not sure why you would pick me, but... I'm glad you're willing to give it a try...!",
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    "Well... let's get to know each other a little better, then...",
+  ),
+  ExpressionChange(Kolme, Embarrassed),
+  Speech(
+    Kolme,
+    "Other selves, d-do you mind giving us some privacy? I think this is supposed to be intimate.",
+  ),
+  Speech(Yksi, "I would love to, but I'm actually attached to our body."),
+  Speech(Kaxig, "i wanna watch."),
+  Speech(Kolme, "Well, I... okay...!"),
 ];
 
 let notHowThatWorksScript: list(Script.event) = [

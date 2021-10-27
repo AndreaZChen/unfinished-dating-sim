@@ -86,13 +86,17 @@ let reducer = (action: action, state: t) =>
                   </>,
               },
               _self => {
-                let sound =
-                  switch (character) {
-                  | Yksi => Sounds.yksiNoise1
-                  | Kaxig => Sounds.kaxigNoise1
-                  | Kolme => Sounds.kolmeNoise1
-                  };
-                Sounds.play(sound);
+                switch (character, state.currentSpeakingCharacter) {
+                | (Yksi, Some(Kaxig) | Some(Kolme) | None) =>
+                  Sounds.yksiNoise1->Sounds.play
+                | (Kaxig, Some(Yksi) | Some(Kolme) | None) =>
+                  Sounds.kaxigNoise1->Sounds.play
+                | (Kolme, Some(Yksi) | Some(Kaxig) | None) =>
+                  Sounds.kolmeNoise1->Sounds.play
+                | (Yksi, Some(Yksi)) => ()
+                | (Kaxig, Some(Kaxig)) => ()
+                | (Kolme, Some(Kolme)) => ()
+                };
                 None;
               },
             )
