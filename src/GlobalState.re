@@ -121,6 +121,7 @@ let reducer = (action: action, state: t) =>
             ReactUpdate.Update({
               ...state,
               displayedChoices: Some(choices),
+              currentSpeakingCharacter: None,
               yksiAnimationClass: "",
               kaxigAnimationClass: "",
               kolmeAnimationClass: "",
@@ -177,6 +178,12 @@ let reducer = (action: action, state: t) =>
       {
         ...state,
         currentSpeakingCharacter: None,
+        yksiAnimationClass: "",
+        kaxigAnimationClass: "",
+        kolmeAnimationClass: "",
+        yksiExpression: Neutral,
+        kaxigExpression: Neutral,
+        kolmeExpression: Neutral,
         text: React.null,
         backgroundImage,
         isHalfwayDoneTransitioningBackground: true,
