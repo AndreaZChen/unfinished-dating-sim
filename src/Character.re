@@ -26,7 +26,7 @@ let getImage = (character: t, expression: expression) =>
     | (Kaxig, Neutral | Embarrassed | Anxious | Excited) => "kaxig_neutral.png"
     | (Kolme, Neutral) => "kolme_neutral.png"
     | (Kolme, Embarrassed) => "kolme_embarrassed.png"
-    | (Kolme, Anxious) => "kolme_embarrassed.png"
+    | (Kolme, Anxious) => "kolme_anxious.png"
     | (Kolme, Excited) => "kolme_neutral.png"
     }
   );

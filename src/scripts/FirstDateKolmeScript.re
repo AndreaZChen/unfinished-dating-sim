@@ -46,7 +46,7 @@ and forLoopScript = [
   ExpressionChange(Kolme, Excited),
   Speech(
     Kolme,
-    {j|Yeah, those are neat! Iterating over things... it's very neat and organized.|j},
+    {j|Yeah, those are neat! Iterating over things... it's very pleasing and organized.|j},
   ),
   GoToScript(script),
 ]
@@ -67,7 +67,7 @@ and whileLoopScript = [
   Speech(Kaxig, {j|yeah.|j}),
   Speech(Kolme, {j|...|j}),
   ExpressionChange(Kolme, Neutral),
-  Speech(Kolme, {j|Well, they have their uses, of course.|j}),
+  Speech(Kolme, {j|Um... but I'm glad you like them, anyway, hehe.|j}),
   GoToScript(script),
 ]
 and switchScript = [
