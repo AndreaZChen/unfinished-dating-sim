@@ -126,11 +126,26 @@ module BlackOverlay = {
   module Styles = {
     open Css;
 
-    let overlay = (~hasStartedFadingIn: bool, ~isHalfwayDone: bool) =>
+    let fadeIn =
+      keyframes([
+        (0, [opacity(0.)]),
+        (50, [opacity(1.)]),
+        (100, [opacity(1.)]),
+      ]);
+
+    let fadeOut =
+      keyframes([
+        (0, [opacity(1.)]),
+        (50, [opacity(0.)]),
+        (100, [opacity(0.)]),
+      ]);
+
+    let overlay = (~isHalfwayDone: bool) =>
       style([
         backgroundColor(`hex("000000")),
-        opacity(hasStartedFadingIn ? isHalfwayDone ? 0. : 1. : 0.),
-        transition(~duration=CommonStyles.overlayTransitionMs, "opacity"),
+        opacity(isHalfwayDone ? 1. : 0.),
+        animationName(isHalfwayDone ? fadeOut : fadeIn),
+        animationDuration(CommonStyles.overlayTransitionMs * 2),
         zIndex(CommonStyles.overlayZIndex),
         width(`percent(100.)),
         height(`percent(100.)),
@@ -142,14 +157,7 @@ module BlackOverlay = {
 
   [@react.component]
   let make = (~isHalfwayDone: bool) => {
-    let (hasStartedFadingIn, setState) = React.useState(_ => false);
-
-    React.useEffect0(() => {
-      setState(_ => true);
-      None;
-    });
-
-    <div className={Styles.overlay(~hasStartedFadingIn, ~isHalfwayDone)} />;
+    <div className={Styles.overlay(~isHalfwayDone)} />;
   };
 };
 
