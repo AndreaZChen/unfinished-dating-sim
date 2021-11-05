@@ -2,13 +2,16 @@ type action =
   | ScriptAdvanced
   | HelpDialogOpened
   | HelpDialogClosed
+  | BackgroundTransitionHalfwayDone(Background.t)
+  | BackgroundTransitionDone
   | ChoiceSelected(int);
 
 type t = {
   script: list(Script.event),
   isShowingHelpDialog: bool,
-  backgroundColorHex: option(string),
-  backgroundImage: option(string),
+  backgroundImage: Background.t,
+  isTransitioningBackground: bool,
+  isHalfwayDoneTransitioningBackground: bool,
   title: string,
   currentSpeakingCharacter: option(Character.t),
   yksiExpression: Character.expression,
@@ -24,8 +27,9 @@ type t = {
 let defaultState = {
   script: InitialScript.script,
   isShowingHelpDialog: false,
-  backgroundColorHex: None,
-  backgroundImage: None,
+  backgroundImage: Normal,
+  isTransitioningBackground: false,
+  isHalfwayDoneTransitioningBackground: false,
   title: "",
   currentSpeakingCharacter: None,
   yksiExpression: Character.Neutral,
@@ -44,6 +48,7 @@ let reducer = (action: action, state: t) =>
   switch (action) {
   | ScriptAdvanced =>
     Belt.Option.isSome(state.displayedChoices)
+    || state.isTransitioningBackground
       ? ReactUpdate.NoUpdate
       : (
         switch (state.script) {
@@ -128,6 +133,25 @@ let reducer = (action: action, state: t) =>
                 None;
               },
             )
+          | TransitionBackground(backgroundImage) =>
+            ReactUpdate.UpdateWithSideEffects(
+              {
+                ...state,
+                isTransitioningBackground: true,
+                isHalfwayDoneTransitioningBackground: false,
+              },
+              self => {
+                let timerId =
+                  Js.Global.setTimeout(
+                    () =>
+                      self.send(
+                        BackgroundTransitionHalfwayDone(backgroundImage),
+                      ),
+                    CommonStyles.overlayTransitionMs,
+                  );
+                Some(() => Js.Global.clearTimeout(timerId));
+              },
+            )
           };
         }
       )
@@ -148,6 +172,36 @@ let reducer = (action: action, state: t) =>
       )
     | None => ReactUpdate.NoUpdate
     };
+  | BackgroundTransitionHalfwayDone(backgroundImage) =>
+    ReactUpdate.UpdateWithSideEffects(
+      {
+        ...state,
+        currentSpeakingCharacter: None,
+        text: React.null,
+        backgroundImage,
+        isHalfwayDoneTransitioningBackground: true,
+      },
+      self => {
+        let timerId =
+          Js.Global.setTimeout(
+            () => self.send(BackgroundTransitionDone),
+            CommonStyles.overlayTransitionMs,
+          );
+        Some(() => Js.Global.clearTimeout(timerId));
+      },
+    )
+  | BackgroundTransitionDone =>
+    ReactUpdate.UpdateWithSideEffects(
+      {
+        ...state,
+        isTransitioningBackground: false,
+        isHalfwayDoneTransitioningBackground: false,
+      },
+      self => {
+        self.send(ScriptAdvanced);
+        None;
+      },
+    )
   | HelpDialogOpened =>
     ReactUpdate.Update({...state, isShowingHelpDialog: true})
   | HelpDialogClosed =>

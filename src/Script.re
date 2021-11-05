@@ -3,6 +3,7 @@ type event =
   | ExpressionChange(Character.t, Character.expression)
   | Choice(array(choice))
   | GoToScript(list(event))
+  | TransitionBackground(Background.t)
 and choice = {
   text: string,
   result: list(event),

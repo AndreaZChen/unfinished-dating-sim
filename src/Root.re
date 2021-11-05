@@ -3,47 +3,35 @@ module Styles = {
 
   let fadeInTime = 1000;
 
-  let rootWrapper = (~backgroundColorHex: option(string)) =>
-    style([
-      overflow(`hidden),
-      position(`absolute),
-      display(`flex),
-      alignItems(`center),
-      justifyContent(`flexStart),
-      flexDirection(`column),
-      width(`percent(100.)),
-      height(`percent(100.)),
-      bottom(`px(0)),
-      right(`px(0)),
-      transitionDuration(500),
-      background(
-        `linearGradient((
-          `deg(90.),
-          [
-            (
-              `percent(0.),
-              `hex(
-                Belt.Option.getWithDefault(
-                  backgroundColorHex,
-                  CommonStyles.defaultBackgroundHex,
-                ),
-              ),
-            ),
-            (`percent(5.), `hex(CommonStyles.defaultBackgroundHex)),
-            (`percent(95.), `hex(CommonStyles.defaultBackgroundHex)),
-            (
-              `percent(100.),
-              `hex(
-                Belt.Option.getWithDefault(
-                  backgroundColorHex,
-                  CommonStyles.defaultBackgroundHex,
-                ),
-              ),
-            ),
-          ],
-        )),
-      ),
+  let rootWrapper = (~backgroundImage as bg: Background.t) => {
+    let baseStyle =
+      style([
+        overflow(`hidden),
+        position(`absolute),
+        display(`flex),
+        alignItems(`center),
+        justifyContent(`flexStart),
+        flexDirection(`column),
+        width(`percent(100.)),
+        height(`percent(100.)),
+        bottom(`px(0)),
+        right(`px(0)),
+        transitionDuration(500),
+      ]);
+
+    merge([
+      baseStyle,
+      switch (bg) {
+      | Normal =>
+        style([backgroundColor(`hex(CommonStyles.defaultBackgroundHex))])
+      | CyberCafe =>
+        style([
+          backgroundImage(`url("../assets/backgrounds/cafe.jpeg")),
+          backgroundSize(`cover),
+        ])
+      },
     ]);
+  };
 
   let imageDiv =
     style([
@@ -56,6 +44,7 @@ module Styles = {
       gridTemplateColumns([`auto]),
       overflow(`hidden),
       minHeight(`px(200)),
+      userSelect(`none),
     ]);
 
   let image = (~isFaded: bool) =>
@@ -133,6 +122,37 @@ module CharacterImage = {
     />;
 };
 
+module BlackOverlay = {
+  module Styles = {
+    open Css;
+
+    let overlay = (~hasStartedFadingIn: bool, ~isHalfwayDone: bool) =>
+      style([
+        backgroundColor(`hex("000000")),
+        opacity(hasStartedFadingIn ? isHalfwayDone ? 0. : 1. : 0.),
+        transition(~duration=CommonStyles.overlayTransitionMs, "opacity"),
+        zIndex(CommonStyles.overlayZIndex),
+        width(`percent(100.)),
+        height(`percent(100.)),
+        position(`fixed),
+        top(`zero),
+        left(`zero),
+      ]);
+  };
+
+  [@react.component]
+  let make = (~isHalfwayDone: bool) => {
+    let (hasStartedFadingIn, setState) = React.useState(_ => false);
+
+    React.useEffect0(() => {
+      setState(_ => true);
+      None;
+    });
+
+    <div className={Styles.overlay(~hasStartedFadingIn, ~isHalfwayDone)} />;
+  };
+};
+
 [@react.component]
 let make = () => {
   let (globalState, globalDispatch) =
@@ -173,7 +193,7 @@ let make = () => {
 
   <div
     className={Styles.rootWrapper(
-      ~backgroundColorHex=globalState.backgroundColorHex,
+      ~backgroundImage=globalState.backgroundImage,
     )}>
     <HelpButton globalDispatch />
     <ScrollToTopProvider value=scrollToTop>
@@ -225,5 +245,10 @@ let make = () => {
     </ScrollToTopProvider>
     {globalState.isShowingHelpDialog
        ? <HelpDialog onClose=onCloseHelpDialog /> : React.null}
+    {globalState.isTransitioningBackground
+       ? <BlackOverlay
+           isHalfwayDone={globalState.isHalfwayDoneTransitioningBackground}
+         />
+       : React.null}
   </div>;
 };

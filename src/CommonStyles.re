@@ -13,7 +13,8 @@ let kolmeHex = "003ef7";
 let commentHex = "949494";
 
 let dialogZIndex = 1000;
-
+let overlayZIndex = 900;
+let overlayTransitionMs = 2000;
 let scrollbarWidth = 20;
 
 global(
