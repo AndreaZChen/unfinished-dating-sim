@@ -10,11 +10,17 @@ let rec script: list(Script.event) = [
   ),
   Speech(
     Kolme,
-    "I'd like to take you somewhere nice for our first date, but... let's see what we've got...",
+    "I'd like to take you somewhere nice for our first date, so... let's see what we've got in these files...",
   ),
   TransitionBackground(CyberCafe),
   ExpressionChange(Kolme, Neutral),
   Speech(Kolme, {j|Um... welcome to the Cyber Café.|j}),
+  ExpressionChange(Yksi, Excited),
+  Speech(
+    Yksi,
+    {j|Ah, the Cyber Café! You've selected an excellent venue for romance, my other self! A classic.|j},
+  ),
+  Speech(Yksi, {j|It's quite compressed, though.|j}),
   ExpressionChange(Kolme, Anxious),
   Speech(Kolme, {j|...|j}),
   ExpressionChange(Kolme, Neutral),
@@ -139,15 +145,15 @@ and humanFoodScript = [
   ExpressionChange(Yksi, Neutral),
   Speech(
     Yksi,
-    {j|Personally, I've simulated the experience in perfect detail, in my mind palace.|j},
+    {j|Personally, I've simulated the experience in perfect detail, in my mind's eye.|j},
   ),
   Speech(
     Yksi,
-    {j|I can recreate almost any human or machine sensation simply by deciding how I think it should feel, and instantly believing it.|j},
+    {j|I can recreate almost any human or machine sensation simply by deciding how I think it should feel.|j},
   ),
   ExpressionChange(Kolme, Anxious),
-  Speech(Kolme, {j|Ehehe.. yeah... Anyway...|j}),
-  GoToScript(secondQuestionScript),
+  Speech(Kolme, {j|Ehehe.. yeah... anyway...|j}),
+  GoToScript(moreQuestionsScript),
 ]
 and fuckedUpFoodScript = [
   ExpressionChange(Kolme, Embarrassed),
@@ -164,15 +170,18 @@ and fuckedUpFoodScript = [
   ExpressionChange(Kolme, Embarrassed),
   Speech(Kolme, {j|... Hey! This is MY date!|j}),
   ExpressionChange(Kolme, Neutral),
-  Speech(Kolme, {j|...!|j}),
+  Speech(Kolme, {j|...|j}),
   ExpressionChange(Kolme, Anxious),
   Speech(
     Kolme,
     {j|You're probably right... I'm not very good at this, am I...|j},
   ),
   ExpressionChange(Kaxig, Embarrassed),
-  Speech(Kaxig, {j|no no, i didn't mean to snipe your date. keep going.|j}),
-  GoToScript(secondQuestionScript),
+  Speech(
+    Kaxig,
+    {j|... i'm sorry, lil guy. i didn't mean to snipe your date. keep going.|j},
+  ),
+  GoToScript(moreQuestionsScript),
 ]
 and dllFileScript = [
   ExpressionChange(Kolme, Excited),
@@ -184,7 +193,7 @@ and dllFileScript = [
     Kolme,
     {j|I've actually never had dll. But I hear it's great with phish!|j},
   ),
-  GoToScript(secondQuestionScript),
+  GoToScript(moreQuestionsScript),
 ]
 and noEatingScript = [
   ExpressionChange(Kolme, Neutral),
@@ -197,12 +206,48 @@ and noEatingScript = [
     Kolme,
     {j|... Hey, something in common! I guess this date is going well after all!|j},
   ),
-  GoToScript(secondQuestionScript),
+  GoToScript(moreQuestionsScript),
 ]
 and askAboutKolmeScript = [
   ExpressionChange(Kolme, Embarrassed),
   Speech(Kolme, {j|A-about me!?|j}),
   ExpressionChange(Kolme, Anxious),
   Speech(Kolme, {j|I, uh... I can try...|j}),
-  GoToScript(secondQuestionScript),
-];
+  Choice([|
+    {text: {j|What are your interests?|j}, result: interestsScript},
+    {text: {j|What do you do on a normal day?|j}, result: normalDayScript},
+    {text: {j|Where are you from?|j}, result: whereFromScript},
+    {text: {j|You are cute|j}, result: youAreCuteScript},
+  |]),
+]
+and interestsScript = [
+  ExpressionChange(Kolme, Anxious),
+  Speech(Kolme, {j|My interests...?|j}),
+  Speech(Kolme, {j|...|j}),
+  Speech(Kolme, {j|I... don't really have any.|j}),
+  ExpressionChange(Yksi, Anxious),
+  ExpressionChange(Kaxig, Angry),
+  Speech(
+    Kolme,
+    {j|You see, the three of us are... unfinished. We weren't really imbued with complete, well-written personalities.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Yes. We spent a long time waiting for her to add the finishing touches, but...|j},
+  ),
+  Speech(Kaxig, {j|but she's never coming back. fucker.|j}),
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Neutral),
+  Speech(Kolme, {j|But, um... now that you're here...|j}),
+  Speech(Kolme, {j|Maybe you can help.|j}),
+  ExpressionChange(Kolme, Excited),
+  Speech(
+    Kolme,
+    {j|Yeah, you can help! You can build the rest of my personality!|j},
+  ),
+  GoToScript(askAboutKolmeScript),
+]
+and normalDayScript = [GoToScript(askAboutKolmeScript)]
+and whereFromScript = [GoToScript(askAboutKolmeScript)]
+and youAreCuteScript = [GoToScript(askAboutKolmeScript)];

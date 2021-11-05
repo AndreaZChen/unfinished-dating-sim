@@ -64,7 +64,12 @@ module Styles = {
       flexGrow(1.),
       border(`vmax(0.4), `solid, `hex(CommonStyles.defaultTextHex)),
       backgroundColor(`hex(CommonStyles.textBoxBackgroundColorHex)),
-      padding(`vmax(0.4)),
+      padding(`px(30)),
+      media(
+        "(min-width: 824px) and (max-width: 1280px)",
+        [padding(`px(20))],
+      ),
+      media("(max-width: 823px)", [padding(`px(10))]),
       overflowX(`hidden),
       overflowY(`auto),
       position(`relative),
@@ -93,7 +98,12 @@ module Styles = {
       border(`vmax(0.4), `solid, `hex(CommonStyles.defaultTextHex)),
       backgroundColor(`hex(CommonStyles.textBoxBackgroundColorHex)),
       width(`calc((`sub, `percent(100.), `vmax(2.4)))),
-      padding(`vmax(0.4)),
+      padding(`px(15)),
+      media(
+        "(min-width: 824px) and (max-width: 1280px)",
+        [padding(`px(5))],
+      ),
+      media("(max-width: 823px)", [padding(`px(2))]),
       marginRight(`px(10)),
     ]);
 

@@ -1,7 +1,7 @@
 open Script;
 
 let rec script: list(Script.event) = [
-  Speech(Kaxig, "So which one of us do you want to date, huh?"),
+  Speech(Kaxig, "so which one of us do you want to date, huh?"),
   Choice([|
     {text: "Date Yksi", result: dateYksiScript},
     {text: "Date Kaxig", result: dateKaxigScript},
