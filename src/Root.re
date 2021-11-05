@@ -92,7 +92,7 @@ module Styles = {
     style([
       border(`vmax(0.4), `solid, `hex(CommonStyles.defaultTextHex)),
       backgroundColor(`hex(CommonStyles.textBoxBackgroundColorHex)),
-      width(`percent(100.)),
+      width(`calc((`sub, `percent(100.), `vmax(2.4)))),
       padding(`vmax(0.4)),
       marginRight(`px(10)),
     ]);
@@ -102,7 +102,11 @@ module Styles = {
     [
       fontFamily("Lato"),
       fontSize(`px(35)),
-      media("(max-width: 768px)", [fontSize(`px(17))]),
+      media(
+        "(min-width: 824px) and (max-width: 1280px)",
+        [fontSize(`px(24))],
+      ),
+      media("(max-width: 823px)", [fontSize(`px(17))]),
       lineHeight(`abs(1.8)),
       backgroundColor(`hex(CommonStyles.defaultBackgroundHex)),
     ],
