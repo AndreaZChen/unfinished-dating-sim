@@ -16,7 +16,7 @@ let getName = character =>
   | Kolme => "Kolme"
   };
 
-let charactersFolder = "../assets/characters/";
+let charactersFolder = "assets/characters/";
 
 let getImage = (character: t, expression: expression) =>
   charactersFolder

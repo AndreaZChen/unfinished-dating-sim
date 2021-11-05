@@ -10,17 +10,17 @@ let play = (audio: audio) => {
 };
 
 let yksiNoise1 = {
-  let audio = createAudio("../assets/sfx/kolme_noise_1.mp3");
+  let audio = createAudio("assets/sfx/kolme_noise_1.mp3");
   setVolume(audio, 0.2);
   audio;
 };
 let kaxigNoise1 = {
-  let audio = createAudio("../assets/sfx/kolme_noise_1.mp3");
+  let audio = createAudio("assets/sfx/kolme_noise_1.mp3");
   setVolume(audio, 0.2);
   audio;
 };
 let kolmeNoise1 = {
-  let audio = createAudio("../assets/sfx/kolme_noise_1.mp3");
+  let audio = createAudio("assets/sfx/kolme_noise_1.mp3");
   setVolume(audio, 0.2);
   audio;
 };

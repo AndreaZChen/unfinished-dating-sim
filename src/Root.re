@@ -26,7 +26,7 @@ module Styles = {
         style([backgroundColor(`hex(CommonStyles.defaultBackgroundHex))])
       | CyberCafe =>
         style([
-          backgroundImage(`url("../assets/backgrounds/cafe.jpeg")),
+          backgroundImage(`url("assets/backgrounds/cafe.jpeg")),
           backgroundSize(`cover),
         ])
       },
@@ -216,7 +216,7 @@ let make = () => {
         <CharacterImage
           isFaded=isDisplayingChoices
           animationClass=""
-          src="../assets/characters/body.png"
+          src="assets/characters/body.png"
         />
         {switch (globalState.displayedChoices) {
          | Some(choices) =>
