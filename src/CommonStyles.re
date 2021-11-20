@@ -17,6 +17,10 @@ let overlayZIndex = 900;
 let overlayTransitionMs = 2000;
 let scrollbarWidth = 20;
 
+let mediaSizeLarge = "(min-width: 1281px)";
+let mediaSizeMiddle = "(min-width: 824px) and (max-width: 1280px)";
+let mediaSizeSmall = "(max-width: 823px)";
+
 global(
   "button",
   [
