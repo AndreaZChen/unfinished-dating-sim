@@ -79,6 +79,7 @@ module Styles = {
       marginBottom(`px(50)),
       minHeight(`percent(25.)),
       userSelect(`none),
+      boxSizing(`borderBox),
     ]);
 
   let choicesDiv =
@@ -91,13 +92,14 @@ module Styles = {
       flexDirection(`column),
       justifyContent(`spaceEvenly),
       alignItems(`flexStart),
+      boxSizing(`borderBox),
     ]);
 
   let choiceItem =
     style([
       border(`vmax(0.4), `solid, `hex(CommonStyles.defaultTextHex)),
       backgroundColor(`hex(CommonStyles.textBoxBackgroundColorHex)),
-      width(`calc((`sub, `percent(100.), `vmax(2.4)))),
+      width(`percent(100.)),
       padding(`px(15)),
       media(
         "(min-width: 824px) and (max-width: 1280px)",
@@ -105,13 +107,14 @@ module Styles = {
       ),
       media("(max-width: 823px)", [padding(`px(2))]),
       marginRight(`px(10)),
+      boxSizing(`borderBox),
     ]);
 
   global(
     "body",
     [
-      fontFamily("Lato"),
-      fontSize(`px(35)),
+      fontFamily("Courier"),
+      media("(min-width: 1281px)", [fontSize(`px(35))]),
       media(
         "(min-width: 824px) and (max-width: 1280px)",
         [fontSize(`px(24))],

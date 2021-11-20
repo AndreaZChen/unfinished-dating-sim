@@ -18,12 +18,14 @@ module Styles = {
   let content =
     style([
       zIndex(CommonStyles.dialogZIndex + 1),
-      maxWidth(`percent(80.)),
-      maxHeight(`percent(80.)),
+      maxWidth(`percent(85.)),
+      maxHeight(`percent(85.)),
       backgroundColor(`hex(CommonStyles.defaultBackgroundHex)),
       border(`px(4), solid, `hex(CommonStyles.defaultBorderHex)),
       padding(`px(25)),
       whiteSpace(`preWrap),
+      boxSizing(`borderBox),
+      overflow(`auto),
     ]);
 };
 
