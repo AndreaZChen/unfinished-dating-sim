@@ -35,15 +35,15 @@ module Styles = {
 
   let imageDiv =
     style([
+      flexGrow(1.),
       position(`relative),
       marginTop(`px(50)),
       display(`grid),
-      justifyContent(`center),
+      alignItems(`end_),
       width(`percent(80.)),
       gridTemplateRows([`fr(1.)]),
       gridTemplateColumns([`auto]),
       overflow(`hidden),
-      minHeight(`px(200)),
       userSelect(`none),
     ]);
 
@@ -53,6 +53,7 @@ module Styles = {
       transition(~duration=fadeInTime, "opacity"),
       gridRow(1, 2),
       gridColumn(1, 2),
+      justifySelf(`center),
       minWidth(`zero),
       minHeight(`zero),
       maxHeight(`percent(100.)),
@@ -61,15 +62,21 @@ module Styles = {
 
   let dialogueArea =
     style([
-      flexGrow(1.),
-      border(`vmax(0.4), `solid, `hex(CommonStyles.defaultTextHex)),
+      borderColor(`hex(CommonStyles.defaultTextHex)),
+      borderStyle(`solid),
       backgroundColor(`hex(CommonStyles.textBoxBackgroundColorHex)),
-      padding(`px(30)),
       media(
-        "(min-width: 824px) and (max-width: 1280px)",
-        [padding(`px(20))],
+        CommonStyles.mediaSizeLarge,
+        [borderWidth(`px(4)), padding(`px(30))],
       ),
-      media("(max-width: 823px)", [padding(`px(10))]),
+      media(
+        CommonStyles.mediaSizeMiddle,
+        [borderWidth(`px(3)), padding(`px(20))],
+      ),
+      media(
+        CommonStyles.mediaSizeSmall,
+        [borderWidth(`px(2)), padding(`px(10))],
+      ),
       overflowX(`hidden),
       overflowY(`auto),
       position(`relative),
@@ -104,12 +111,18 @@ module Styles = {
       border(`vmax(0.4), `solid, `hex(CommonStyles.defaultTextHex)),
       backgroundColor(`hex(CommonStyles.textBoxBackgroundColorHex)),
       width(`percent(100.)),
-      padding(`px(15)),
       media(
-        "(min-width: 824px) and (max-width: 1280px)",
-        [padding(`px(5))],
+        CommonStyles.mediaSizeLarge,
+        [borderWidth(`px(4)), padding(`px(15))],
       ),
-      media("(max-width: 823px)", [padding(`px(2))]),
+      media(
+        CommonStyles.mediaSizeMiddle,
+        [borderWidth(`px(3)), padding(`px(10))],
+      ),
+      media(
+        CommonStyles.mediaSizeSmall,
+        [borderWidth(`px(2)), padding(`px(5))],
+      ),
       marginRight(`px(10)),
       boxSizing(`borderBox),
     ]);
@@ -121,7 +134,7 @@ module Styles = {
       media(CommonStyles.mediaSizeLarge, [fontSize(`px(35))]),
       media(CommonStyles.mediaSizeMiddle, [fontSize(`px(24))]),
       media(CommonStyles.mediaSizeSmall, [fontSize(`px(17))]),
-      lineHeight(`abs(1.8)),
+      lineHeight(`abs(1.0)),
       backgroundColor(`hex(CommonStyles.defaultBackgroundHex)),
     ],
   );
