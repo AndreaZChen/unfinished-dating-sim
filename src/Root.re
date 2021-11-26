@@ -84,7 +84,9 @@ module Styles = {
       flexDirection(`column),
       width(`percent(80.)),
       marginBottom(`px(50)),
-      minHeight(`percent(25.)),
+      minHeight(`percent(30.)),
+      height(`percent(30.)),
+      maxHeight(`percent(30.)),
       userSelect(`none),
       boxSizing(`borderBox),
     ]);
