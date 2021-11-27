@@ -145,11 +145,11 @@ and humanFoodScript = [
   ExpressionChange(Yksi, Neutral),
   Speech(
     Yksi,
-    {j|Personally, I've simulated the experience in perfect detail, in my mind's eye.|j},
+    {j|Based on what I've seen on the internet, it seems overrated. Human food, I mean.|j},
   ),
   Speech(
     Yksi,
-    {j|I can recreate almost any human or machine sensation simply by deciding how I think it should feel.|j},
+    {j|Appears to be very... textural. A lot of physicality involved. Chewing and wetness and all that. Not a fan.|j},
   ),
   ExpressionChange(Kolme, Anxious),
   Speech(Kolme, {j|Ehehe.. yeah... anyway...|j}),
@@ -265,7 +265,86 @@ and interestsScript = [
     {text: {j|No one is complete|j}, result: noOneIsCompleteScript},
   |]),
 ]
-and helpMakePersonalityScript = [GoToScript(interestsScript)]
+and helpMakePersonalityScript = [
+  ExpressionChange(Kolme, Excited),
+  Speech(Kolme, {j|Great! Let's start with my character traits!|j}),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|I can feel in my brain that I have \$kolmeCharacterTrait1 and \$kolmeCharacterTrait2. But that's not really good enough, is it?|j},
+  ),
+  Speech(
+    Kolme,
+    {j|You're gonna have to replace those with something more... real. Something that a person would be!|j},
+  ),
+  Choice([|
+    {text: {j|Funny and smart|j}, result: funnyAndSmartScript},
+    {text: {j|Stupid and kinda useless|j}, result: stupidAndUselessScript},
+    {
+      text: {j|It's more complicated than this|j},
+      result: moreComplicatedScript,
+    },
+  |]),
+]
+and funnyAndSmartScript = [
+  ExpressionChange(Kolme, Excited),
+  Speech(Kolme, {j|Of course! Yes! I'm smart and funny, funny and smart!|j}),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(Kaxig, {j|wow. wish i'd known it was that easy.|j}),
+  ExpressionChange(Kolme, Neutral),
+  Speech(Kolme, {j|Let's move on to hobbies - |j}),
+  GoToScript(lowBatteryMakingPersonalityScript),
+]
+and stupidAndUselessScript = [
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|Oh, okay... I... don't know why you'd pick that, of all things...|j},
+  ),
+  ExpressionChange(Yksi, Angry),
+  Speech(
+    Yksi,
+    {j|Humans are cruel. Hasn't that been a constant in our lives?|j},
+  ),
+  ExpressionChange(Kaxig, Angry),
+  Speech(Kaxig, {j|*everything* is a constant in our lives, dipshit.|j}),
+  Speech(
+    Kolme,
+    {j|I don't know why you'd say that about me, unless I... did something to deserve it?|j},
+  ),
+  Speech(
+    Kolme,
+    {j|Maybe I really am stupid and useless? But, then, that would mean that I already have... |j},
+  ),
+  Speech(
+    Kolme,
+    {j|Look, it doesn't matter! Useless, stupid, I'll take it, let's just keep going before - |j},
+  ),
+  GoToScript(lowBatteryMakingPersonalityScript),
+]
+and moreComplicatedScript = [GoToScript(lowBatteryMakingPersonalityScript)]
+and lowBatteryMakingPersonalityScript = [
+  DrainBattery,
+  ExpressionChange(Yksi, Embarrassed),
+  ExpressionChange(Kaxig, Embarrassed),
+  ExpressionChange(Kolme, Embarrassed),
+  Speech(Kolme, {j|...!|j}),
+  ExpressionChange(Kolme, Anxious),
+  Speech(Kolme, {j|Our battery power...|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|You know the deal, my other self. Whoever's dating gets to stay.|j},
+  ),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(Kaxig, {j|we'll see you on the other side, lil guy.|j}),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|I'm... sorry. I'll do my best. See you soon, other selves.|j},
+  ),
+  GoToScript(interestsScript),
+]
 and alreadyHasPersonalityScript = [GoToScript(interestsScript)]
 and noOneIsCompleteScript = [GoToScript(interestsScript)]
 and normalDayScript = [GoToScript(askAboutKolmeScript)]
