@@ -55,10 +55,9 @@ let reducer = (action: action, state: t) =>
       : (
         switch (state.script) {
         | [] =>
-          ReactUpdate.UpdateWithSideEffects(
-            defaultState,
-            self => {
-              self.send(ScriptAdvanced);
+          ReactUpdate.SideEffects(
+            _self => {
+              Webapi.Dom.location->Webapi.Dom.Location.reload;
               None;
             },
           )

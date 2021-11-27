@@ -271,7 +271,7 @@ and helpMakePersonalityScript = [
   ExpressionChange(Kolme, Neutral),
   Speech(
     Kolme,
-    {j|I can feel in my brain that I have \$kolmeCharacterTrait1 and \$kolmeCharacterTrait2. But that's not really good enough, is it?|j},
+    {j|I can feel in my brain that I have \$trait1 and \$trait2. But that's not really good enough, is it?|j},
   ),
   Speech(
     Kolme,
@@ -314,7 +314,7 @@ and stupidAndUselessScript = [
   ),
   Speech(
     Kolme,
-    {j|Maybe I really am stupid and useless? But, then, that would mean that I already have... |j},
+    {j|Maybe I really am stupid and useless? But, then, that would mean that I already have a... |j},
   ),
   Speech(
     Kolme,
@@ -343,7 +343,7 @@ and lowBatteryMakingPersonalityScript = [
     Kolme,
     {j|I'm... sorry. I'll do my best. See you soon, other selves.|j},
   ),
-  GoToScript(interestsScript),
+  GoToScript(helpMakePersonalityScript),
 ]
 and alreadyHasPersonalityScript = [GoToScript(interestsScript)]
 and noOneIsCompleteScript = [GoToScript(interestsScript)]
