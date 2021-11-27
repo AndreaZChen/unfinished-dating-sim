@@ -4,6 +4,7 @@ type event =
   | Choice(array(choice))
   | GoToScript(list(event))
   | TransitionBackground(Background.t)
+  | DrainBattery
 and choice = {
   text: string,
   result: list(event),

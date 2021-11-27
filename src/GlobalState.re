@@ -22,6 +22,7 @@ type t = {
   kolmeAnimationClass: string,
   text: React.element,
   displayedChoices: option(array(Script.choice)),
+  isBatteryLow: bool,
 };
 
 let defaultState = {
@@ -40,6 +41,7 @@ let defaultState = {
   kolmeAnimationClass: "",
   text: React.null,
   displayedChoices: None,
+  isBatteryLow: false,
 };
 
 let textFadeInTime = 1000;
@@ -81,7 +83,7 @@ let reducer = (action: action, state: t) =>
                         | None => textFadeInTime
                         }
                       }>
-                      <Text character>
+                      <Text character bold=true>
                         {Character.getName(character) ++ ": "}
                       </Text>
                     </FadeInDiv>
@@ -151,6 +153,14 @@ let reducer = (action: action, state: t) =>
                     CommonStyles.overlayTransitionMs,
                   );
                 Some(() => Js.Global.clearTimeout(timerId));
+              },
+            )
+          | DrainBattery =>
+            ReactUpdate.UpdateWithSideEffects(
+              {...state, isBatteryLow: true},
+              self => {
+                self.send(ScriptAdvanced);
+                None;
               },
             )
           };

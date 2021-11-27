@@ -155,6 +155,39 @@ module CharacterImage = {
     />;
 };
 
+module BatteryIndicator = {
+  module Styles = {
+    open Css;
+
+    let image =
+      style([
+        position(`absolute),
+        zIndex(CommonStyles.dialogZIndex - 1),
+        top(`px(5)),
+        right(`px(5)),
+        userSelect(`none),
+        margin(`px(10)),
+        media(CommonStyles.mediaSizeLarge, [width(`px(100))]),
+        media(CommonStyles.mediaSizeMiddle, [width(`px(75))]),
+        media(CommonStyles.mediaSizeSmall, [width(`px(50))]),
+      ]);
+  };
+
+  [@react.component]
+  let make = (~isBatteryLow: bool) =>
+    <img
+      className={
+        Styles.image
+        ++ (isBatteryLow ? " animate__animated animate__flash" : "")
+      }
+      src={
+        isBatteryLow
+          ? "assets/characters/battery_low.png"
+          : "assets/characters/battery_full.png"
+      }
+    />;
+};
+
 module BlackOverlay = {
   module Styles = {
     open Css;
@@ -237,6 +270,7 @@ let make = () => {
       ~backgroundImage=globalState.backgroundImage,
     )}>
     <HelpButton globalDispatch />
+    <BatteryIndicator isBatteryLow={globalState.isBatteryLow} />
     <ScrollToTopProvider value=scrollToTop>
       <div className=Styles.imageDiv>
         <CharacterImage

@@ -246,8 +246,28 @@ and interestsScript = [
     Kolme,
     {j|Yeah, you can help! You can build the rest of my personality!|j},
   ),
-  GoToScript(askAboutKolmeScript),
+  ExpressionChange(Yksi, Anxious),
+  Speech(Yksi, {j|I don't know that that's a good idea.|j}),
+  ExpressionChange(Kolme, Excited),
+  Speech(
+    Kolme,
+    {j|But it is! A human, with the capacity to create and imagine... that's what we need, right?|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kolme, Neutral),
+  Speech(Kolme, {j|So... will you complete my personality for me?|j}),
+  Choice([|
+    {text: {j|Okay, I will|j}, result: helpMakePersonalityScript},
+    {
+      text: {j|You already have a personality|j},
+      result: alreadyHasPersonalityScript,
+    },
+    {text: {j|No one is complete|j}, result: noOneIsCompleteScript},
+  |]),
 ]
+and helpMakePersonalityScript = [GoToScript(interestsScript)]
+and alreadyHasPersonalityScript = [GoToScript(interestsScript)]
+and noOneIsCompleteScript = [GoToScript(interestsScript)]
 and normalDayScript = [GoToScript(askAboutKolmeScript)]
 and whereFromScript = [GoToScript(askAboutKolmeScript)]
 and youAreCuteScript = [GoToScript(askAboutKolmeScript)];
