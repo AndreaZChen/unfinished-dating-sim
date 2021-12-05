@@ -2,6 +2,7 @@ type event =
   | Speech(Character.t, string)
   | ExpressionChange(Character.t, Character.expression)
   | Choice(array(choice))
+  | ChoiceAndEndGame(array(choice))
   | GoToScript(list(event))
   | TransitionBackground(Background.t)
   | DrainBattery

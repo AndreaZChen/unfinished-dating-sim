@@ -127,6 +127,21 @@ let reducer = (action: action, state: t) =>
               kaxigAnimationClass: "",
               kolmeAnimationClass: "",
             })
+          | ChoiceAndEndGame(choices) =>
+            ReactUpdate.UpdateWithSideEffects(
+              {
+                ...state,
+                displayedChoices: Some(choices),
+                currentSpeakingCharacter: None,
+                yksiAnimationClass: "",
+                kaxigAnimationClass: "",
+                kolmeAnimationClass: "",
+              },
+              _self => {
+                Webapi.Dom.location->Webapi.Dom.Location.reload;
+                None;
+              },
+            )
           | GoToScript(newScript) =>
             ReactUpdate.UpdateWithSideEffects(
               {...state, script: newScript},

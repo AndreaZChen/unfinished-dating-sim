@@ -19,6 +19,10 @@ and interestsScript = [
   Speech(Kolme, {j|My interests...?|j}),
   Speech(Kolme, {j|...|j}),
   Speech(Kolme, {j|I... don't really have any.|j}),
+  Speech(
+    Kolme,
+    {j|I don't have specific things to like, or care about, or *be*.|j},
+  ),
   ExpressionChange(Yksi, Anxious),
   ExpressionChange(Kaxig, Angry),
   Speech(
@@ -76,7 +80,7 @@ and helpMakePersonalityScript = [
     {text: {j|Stupid and kinda useless|j}, result: stupidAndUselessScript},
     {
       text: {j|It's more complicated than this|j},
-      result: moreComplicatedScript,
+      result: helpMakePersonalityScript,
     },
   |]),
 ]
@@ -227,7 +231,9 @@ and desperateMakingPersonalityScript3 = [
     Kolme,
     {j|... Just a few seconds left. Anything you want to say to me before the end?|j},
   ),
-  Choice([|{text: {j|Can't think of anything|j}, result: endScript}|]),
+  ChoiceAndEndGame([|
+    {text: {j|Can't think of anything|j}, result: endScript},
+  |]),
 ]
 and alreadyHasPersonalityScript = [GoToScript(interestsScript)]
 and noOneIsCompleteScript = [GoToScript(interestsScript)]
