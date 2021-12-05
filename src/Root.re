@@ -170,6 +170,7 @@ module BatteryIndicator = {
         media(CommonStyles.mediaSizeLarge, [width(`px(100))]),
         media(CommonStyles.mediaSizeMiddle, [width(`px(75))]),
         media(CommonStyles.mediaSizeSmall, [width(`px(50))]),
+        animationIterationCount(`count(10)),
       ]);
   };
 
