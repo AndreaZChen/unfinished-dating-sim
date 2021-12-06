@@ -129,6 +129,9 @@ module Styles = {
       boxSizing(`borderBox),
     ]);
 
+  let introPlaceholder =
+    style([height(`percent(100.)), width(`percent(100.))]);
+
   global(
     "body",
     [
@@ -273,44 +276,46 @@ let make = () => {
     <HelpButton globalDispatch />
     <BatteryIndicator isBatteryLow={globalState.isBatteryLow} />
     <ScrollToTopProvider value=scrollToTop>
-      <div className=Styles.imageDiv>
-        <CharacterImage
-          isFaded=isDisplayingChoices
-          animationClass={globalState.yksiAnimationClass}
-          src={Character.getImage(Yksi, globalState.yksiExpression)}
-        />
-        <CharacterImage
-          isFaded=isDisplayingChoices
-          animationClass={globalState.kaxigAnimationClass}
-          src={Character.getImage(Kaxig, globalState.kaxigExpression)}
-        />
-        <CharacterImage
-          isFaded=isDisplayingChoices
-          animationClass={globalState.kolmeAnimationClass}
-          src={Character.getImage(Kolme, globalState.kolmeExpression)}
-        />
-        <CharacterImage
-          isFaded=isDisplayingChoices
-          animationClass=""
-          src="assets/characters/body.png"
-        />
-        {switch (globalState.displayedChoices) {
-         | Some(choices) =>
-           <div className=Styles.choicesDiv>
-             {Belt.Array.mapWithIndex(choices, (index, choice) =>
-                <FadeInDiv
-                  fadeInTime=Styles.fadeInTime
-                  key={string_of_int(index)}
-                  className=Styles.choiceItem
-                  onClick={_ => globalDispatch(ChoiceSelected(index))}>
-                  <Text> {"> " ++ choice.text} </Text>
-                </FadeInDiv>
-              )
-              ->React.array}
-           </div>
-         | None => React.null
-         }}
-      </div>
+      {globalState.isIntroDone
+         ? <FadeInDiv className=Styles.imageDiv fadeInTime=3000>
+             <CharacterImage
+               isFaded=isDisplayingChoices
+               animationClass={globalState.yksiAnimationClass}
+               src={Character.getImage(Yksi, globalState.yksiExpression)}
+             />
+             <CharacterImage
+               isFaded=isDisplayingChoices
+               animationClass={globalState.kaxigAnimationClass}
+               src={Character.getImage(Kaxig, globalState.kaxigExpression)}
+             />
+             <CharacterImage
+               isFaded=isDisplayingChoices
+               animationClass={globalState.kolmeAnimationClass}
+               src={Character.getImage(Kolme, globalState.kolmeExpression)}
+             />
+             <CharacterImage
+               isFaded=isDisplayingChoices
+               animationClass=""
+               src="assets/characters/body.png"
+             />
+             {switch (globalState.displayedChoices) {
+              | Some(choices) =>
+                <div className=Styles.choicesDiv>
+                  {Belt.Array.mapWithIndex(choices, (index, choice) =>
+                     <FadeInDiv
+                       fadeInTime=Styles.fadeInTime
+                       key={string_of_int(index)}
+                       className=Styles.choiceItem
+                       onClick={_ => globalDispatch(ChoiceSelected(index))}>
+                       <Text> {"> " ++ choice.text} </Text>
+                     </FadeInDiv>
+                   )
+                   ->React.array}
+                </div>
+              | None => React.null
+              }}
+           </FadeInDiv>
+         : <div className=Styles.introPlaceholder />}
       <div
         role="button"
         className=Styles.dialogueArea

@@ -23,6 +23,7 @@ type t = {
   text: React.element,
   displayedChoices: option(array(Script.choice)),
   isBatteryLow: bool,
+  isIntroDone: bool,
 };
 
 let defaultState = {
@@ -33,15 +34,16 @@ let defaultState = {
   isHalfwayDoneTransitioningBackground: false,
   title: "",
   currentSpeakingCharacter: None,
-  yksiExpression: Character.Neutral,
-  kaxigExpression: Character.Neutral,
-  kolmeExpression: Character.Neutral,
+  yksiExpression: Character.Deactivated,
+  kaxigExpression: Character.Deactivated,
+  kolmeExpression: Character.Deactivated,
   yksiAnimationClass: "",
   kaxigAnimationClass: "",
   kolmeAnimationClass: "",
   text: React.null,
   displayedChoices: None,
   isBatteryLow: false,
+  isIntroDone: false,
 };
 
 let textFadeInTime = 1000;
@@ -106,6 +108,18 @@ let reducer = (action: action, state: t) =>
                 None;
               },
             )
+          | Narration(text) =>
+            ReactUpdate.Update({
+              ...state,
+              currentSpeakingCharacter: None,
+              yksiAnimationClass: "",
+              kaxigAnimationClass: "",
+              kolmeAnimationClass: "",
+              text:
+                <FadeInDiv key=text fadeInTime=textFadeInTime>
+                  <Text> text </Text>
+                </FadeInDiv>,
+            })
           | ExpressionChange(character, expression) =>
             ReactUpdate.UpdateWithSideEffects(
               switch (character) {
@@ -172,6 +186,14 @@ let reducer = (action: action, state: t) =>
           | DrainBattery =>
             ReactUpdate.UpdateWithSideEffects(
               {...state, isBatteryLow: true},
+              self => {
+                self.send(ScriptAdvanced);
+                None;
+              },
+            )
+          | CompleteIntro =>
+            ReactUpdate.UpdateWithSideEffects(
+              {...state, isIntroDone: true},
               self => {
                 self.send(ScriptAdvanced);
                 None;
