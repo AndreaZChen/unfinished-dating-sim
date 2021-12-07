@@ -66,7 +66,8 @@ let reducer = (action: action, state: t) =>
         | [nextEvent, ...futureEvents] =>
           let state = {...state, script: futureEvents};
           switch (nextEvent) {
-          | Speech(character, text) =>
+          | Speech(character, text)
+          | SpeechAndEndGame(character, text) =>
             ReactUpdate.UpdateWithSideEffects(
               {
                 ...state,
@@ -105,6 +106,14 @@ let reducer = (action: action, state: t) =>
                 | (Kaxig, Some(Kaxig)) => ()
                 | (Kolme, Some(Kolme)) => ()
                 };
+                [@warning "-4"]
+                (
+                  switch (nextEvent) {
+                  | SpeechAndEndGame(_) =>
+                    Webapi.Dom.location->Webapi.Dom.Location.reload
+                  | _ => ()
+                  }
+                );
                 None;
               },
             )
@@ -132,15 +141,7 @@ let reducer = (action: action, state: t) =>
                 None;
               },
             )
-          | Choice(choices) =>
-            ReactUpdate.Update({
-              ...state,
-              displayedChoices: Some(choices),
-              currentSpeakingCharacter: None,
-              yksiAnimationClass: "",
-              kaxigAnimationClass: "",
-              kolmeAnimationClass: "",
-            })
+          | Choice(choices)
           | ChoiceAndEndGame(choices) =>
             ReactUpdate.UpdateWithSideEffects(
               {
@@ -152,7 +153,14 @@ let reducer = (action: action, state: t) =>
                 kolmeAnimationClass: "",
               },
               _self => {
-                Webapi.Dom.location->Webapi.Dom.Location.reload;
+                [@warning "-4"]
+                (
+                  switch (nextEvent) {
+                  | ChoiceAndEndGame(_) =>
+                    Webapi.Dom.location->Webapi.Dom.Location.reload
+                  | _ => ()
+                  }
+                );
                 None;
               },
             )

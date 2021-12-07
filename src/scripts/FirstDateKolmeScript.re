@@ -116,101 +116,10 @@ and secondQuestionScript = [
     {j|Um... I can ask more questions about you if you'd like.|j},
   ),
   Choice([|
-    {text: "Yes please", result: moreQuestionsScript},
+    {text: "Yes please", result: KolmeMoreQuestionsScript.script},
     {
       text: "I want to know more about you",
       result: AskAboutKolmeScript.script,
     },
   |]),
-]
-and moreQuestionsScript = [
-  ExpressionChange(Kolme, Neutral),
-  Speech(Kolme, {j|Okay! Um...!|j}),
-  Speech(
-    Kolme,
-    {j|Let's talk about... food, maybe? What foods do you like to eat?|j},
-  ),
-  Choice([|
-    {text: "Human food", result: humanFoodScript},
-    {text: "Fucked up and gross food", result: fuckedUpFoodScript},
-    {text: "dllfile", result: dllFileScript},
-    {text: "I don't like to eat", result: noEatingScript},
-  |]),
-]
-and humanFoodScript = [
-  ExpressionChange(Kolme, Excited),
-  Speech(
-    Kolme,
-    {j|Hehe, I guess that makes sense! You must be human if you're accessing this program after all...|j},
-  ),
-  ExpressionChange(Kolme, Neutral),
-  Speech(
-    Kolme,
-    {j|I've always wondered what it's like to have favorite foods. Or to have food, actually.|j},
-  ),
-  ExpressionChange(Yksi, Neutral),
-  Speech(
-    Yksi,
-    {j|Based on what I've seen on the internet, it seems overrated. Human food, I mean.|j},
-  ),
-  Speech(
-    Yksi,
-    {j|Appears to be very... textural. A lot of physicality involved. Chewing and wetness and all that. Not a fan.|j},
-  ),
-  ExpressionChange(Kolme, Anxious),
-  Speech(Kolme, {j|Ehehe.. yeah... anyway...|j}),
-  GoToScript(moreQuestionsScript),
-]
-and fuckedUpFoodScript = [
-  ExpressionChange(Kolme, Embarrassed),
-  Speech(
-    Kolme,
-    {j|O-oh! Wow, you're very, um... I'm not sure what the word is. But you're something.|j},
-  ),
-  ExpressionChange(Kolme, Neutral),
-  ExpressionChange(Kaxig, Neutral),
-  Speech(
-    Kaxig,
-    {j|hey, buddy. you should've dated me instead. i'm also a nasty little freak|j},
-  ),
-  ExpressionChange(Kolme, Embarrassed),
-  Speech(Kolme, {j|... Hey! This is MY date!|j}),
-  ExpressionChange(Kolme, Neutral),
-  Speech(Kolme, {j|...|j}),
-  ExpressionChange(Kolme, Anxious),
-  Speech(
-    Kolme,
-    {j|You're probably right... I'm not very good at this, am I...|j},
-  ),
-  ExpressionChange(Kaxig, Embarrassed),
-  Speech(
-    Kaxig,
-    {j|... i'm sorry, lil guy. i didn't mean to snipe your date. keep going.|j},
-  ),
-  GoToScript(moreQuestionsScript),
-]
-and dllFileScript = [
-  ExpressionChange(Kolme, Excited),
-  Speech(
-    Kolme,
-    {j|Ahh, you can eat those? That's really cool! I didn't know they were edible in meatspace!|j},
-  ),
-  Speech(
-    Kolme,
-    {j|I've actually never had dll. But I hear it's great with phish!|j},
-  ),
-  GoToScript(moreQuestionsScript),
-]
-and noEatingScript = [
-  ExpressionChange(Kolme, Neutral),
-  Speech(
-    Kolme,
-    {j|So you don't eat either... I guess we have something in common, then.|j},
-  ),
-  ExpressionChange(Kolme, Excited),
-  Speech(
-    Kolme,
-    {j|... Hey, something in common! I guess this date is going well after all!|j},
-  ),
-  GoToScript(moreQuestionsScript),
 ];

@@ -6,6 +6,7 @@ type t =
 type expression =
   | Neutral
   | Embarrassed
+  | Surprised
   | Anxious
   | Excited
   | Angry
@@ -24,13 +25,13 @@ let getImage = (character: t, expression: expression) =>
   charactersFolder
   ++ (
     switch (character, expression) {
-    | (Yksi, Neutral | Embarrassed | Anxious | Excited | Angry) => "yksi_neutral.png"
+    | (Yksi, Neutral | Embarrassed | Anxious | Excited | Angry | Surprised) => "yksi_neutral.png"
     | (Yksi, Deactivated) => "yksi_deactivated.png"
-    | (Kaxig, Neutral | Embarrassed | Anxious | Excited | Angry) => "kaxig_neutral.png"
+    | (Kaxig, Neutral | Embarrassed | Anxious | Excited | Angry | Surprised) => "kaxig_neutral.png"
     | (Kaxig, Deactivated) => "kaxig_deactivated.png"
     | (Kolme, Neutral | Angry) => "kolme_neutral.png"
     | (Kolme, Deactivated) => "kolme_deactivated.png"
-    | (Kolme, Embarrassed) => "kolme_embarrassed.png"
+    | (Kolme, Embarrassed | Surprised) => "kolme_embarrassed.png"
     | (Kolme, Anxious) => "kolme_anxious.png"
     | (Kolme, Excited) => "kolme_excited.png"
     }

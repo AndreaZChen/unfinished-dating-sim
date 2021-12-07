@@ -79,7 +79,7 @@ and helpMakePersonalityScript = [
     {text: {j|Funny and smart|j}, result: funnyAndSmartScript},
     {text: {j|Stupid and kinda useless|j}, result: stupidAndUselessScript},
     {
-      text: {j|It's more complicated than this|j},
+      text: {j|It's more complicated than that|j},
       result: helpMakePersonalityScript,
     },
   |]),
@@ -123,9 +123,9 @@ and stupidAndUselessScript = [
 and moreComplicatedScript = [GoToScript(lowBatteryMakingPersonalityScript)]
 and lowBatteryMakingPersonalityScript = [
   DrainBattery,
-  ExpressionChange(Yksi, Embarrassed),
-  ExpressionChange(Kaxig, Embarrassed),
-  ExpressionChange(Kolme, Embarrassed),
+  ExpressionChange(Yksi, Surprised),
+  ExpressionChange(Kaxig, Surprised),
+  ExpressionChange(Kolme, Surprised),
   Speech(Kolme, {j|...!|j}),
   ExpressionChange(Kolme, Anxious),
   Speech(Kolme, {j|Our battery power...|j}),

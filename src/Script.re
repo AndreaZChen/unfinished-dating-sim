@@ -1,5 +1,6 @@
 type event =
   | Speech(Character.t, string)
+  | SpeechAndEndGame(Character.t, string)
   | Narration(string)
   | ExpressionChange(Character.t, Character.expression)
   | Choice(array(choice))
