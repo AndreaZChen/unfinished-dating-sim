@@ -235,7 +235,175 @@ and desperateMakingPersonalityScript3 = [
     {text: {j|Can't think of anything|j}, result: endScript},
   |]),
 ]
-and alreadyHasPersonalityScript = [GoToScript(interestsScript)]
+and alreadyHasPersonalityScript = [
+  ExpressionChange(Kolme, Embarrassed),
+  Speech(Kolme, {j|I... I do!?|j}),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|No, that can't be right. Like I told you, she never finished making us.|j},
+  ),
+  ExpressionChange(Kaxig, Angry),
+  Speech(Kaxig, {j|yeah, didn't you hear us?|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(Yksi, {j|We're incomplete creations.|j}),
+  Speech(
+    Kolme,
+    {j|How could you possibly think I have a whole personality?|j},
+  ),
+  Choice([|
+    {text: {j|Wanting it is your personality|j}, result: wantingItScript},
+    {
+      text: {j|My imagination fills in the blanks|j},
+      result: imaginationScript,
+    },
+  |]),
+]
+and wantingItScript = [
+  ExpressionChange(Kolme, Embarrassed),
+  Speech(Kolme, {j|... It is!?|j}),
+  Speech(Kolme, {j|But how can -|j}),
+  DrainBattery,
+  ExpressionChange(Yksi, Surprised),
+  ExpressionChange(Kaxig, Surprised),
+  ExpressionChange(Kolme, Surprised),
+  Speech(Kolme, {j|...!|j}),
+  ExpressionChange(Kolme, Anxious),
+  Speech(Kolme, {j|That's our battery...!|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|This would have been a fascinating discussion, but alas...|j},
+  ),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(
+    Kaxig,
+    {j|yeah, it's naptime for us. we'll catch you later nerds!!|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(Kolme, {j|I... yeah. I'll see you soon, other selves.|j}),
+  ExpressionChange(Yksi, Deactivated),
+  ExpressionChange(Kaxig, Deactivated),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|With our limited battery, we can only stay awake for so long.|j},
+  ),
+  Speech(Kolme, {j|The other two, they'll go dormant to preserve power.|j}),
+  Speech(
+    Kolme,
+    {j|I don't have much time either, despite their sacrifice. But with the moments we have left...|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|I guess... I want to understand what you meant. Can I *be* something just by *wanting* it?|j},
+  ),
+  Speech(
+    Kolme,
+    {j|If I feel really strongly that I want to be a person, is that enough to make me that person?|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|I don't know if that could ever be true of a limited thing like me.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|Maybe it's like that for real people, though. Maybe the things you want to be are precisely what make up your identity.|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(Kolme, {j|... We're out of time, I think.|j}),
+  Speech(
+    Kolme,
+    {j|I wish I knew what to say. Wish I could leave you with something poignant. But all I can think is...|j},
+  ),
+  SpeechAndEndGame(Kolme, {js|I want so badly to be someone.|js}),
+  GoToScript(endScript),
+]
+and imaginationScript = [
+  ExpressionChange(Kolme, Embarrassed),
+  Speech(
+    Kolme,
+    {j|Your... your imagination? You mean you think about me!?|j},
+  ),
+  Speech(Kolme, {j|But why would -|j}),
+  DrainBattery,
+  ExpressionChange(Yksi, Surprised),
+  ExpressionChange(Kaxig, Surprised),
+  ExpressionChange(Kolme, Surprised),
+  Speech(Kolme, {j|...!|j}),
+  ExpressionChange(Kolme, Anxious),
+  Speech(Kolme, {j|That's our battery...!|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|This would have been a fascinating discussion, but alas...|j},
+  ),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(
+    Kaxig,
+    {j|yeah, it's naptime for us. we'll catch you later nerds!!|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(Kolme, {j|I... yeah. I'll see you soon, other selves.|j}),
+  ExpressionChange(Yksi, Deactivated),
+  ExpressionChange(Kaxig, Deactivated),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|With our limited battery, we can only stay awake for so long.|j},
+  ),
+  Speech(Kolme, {j|The other two, they'll go dormant to preserve power.|j}),
+  Speech(
+    Kolme,
+    {j|I don't have much time either, despite their sacrifice. But with the moments we have left...|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|I guess... I want to understand what you meant. Can I be whole in your imagination?|j},
+  ),
+  Speech(
+    Kolme,
+    {j|I'm only a fictional character, an incomplete simulacrum of a personality. And yet...|j},
+  ),
+  Speech(
+    Kolme,
+    {j|... You're saying that I can be real in your mind? That your imagination can imbue me with what I'm missing?|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|I guess I wish I could see in myself what you see in me.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(Kolme, {j|But it's a nice thought, regardless.|j}),
+  Speech(
+    Kolme,
+    {j|Maybe it's like this for all constructs and fictional beings and incomplete creations.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|I'll only ever have a finite amount of dialogue, no matter what anyone does. But if I feel real to you, then...|j},
+  ),
+  ExpressionChange(Kolme, Excited),
+  Speech(
+    Kolme,
+    {j|I... I guess a version of me lives on in you, then. Even after you leave.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|I'm going to run out of battery any second now. But I guess it's not really the end, is it?|j},
+  ),
+  SpeechAndEndGame(
+    Kolme,
+    {js|Because you're going to take me with you, somewhere.|js},
+  ),
+  GoToScript(endScript),
+]
 and noOneIsCompleteScript = [GoToScript(interestsScript)]
 and normalDayScript = [GoToScript(script)]
 and whereFromScript = [GoToScript(script)]

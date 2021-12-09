@@ -139,9 +139,9 @@ and stupidAndUselessScript = [
     Kolme,
     {j|O-oh! I'm sorry, or, I mean - you shouldn't say things like that about yourself!|j},
   ),
-  ExpressionChange(Kolme, Anxious),
   ExpressionChange(Kaxig, Excited),
   Speech(Kaxig, {j|yesss! stupid and useless squad represent!|j}),
+  ExpressionChange(Kolme, Anxious),
   Speech(
     Kolme,
     {j|Ehe, yeah... I suppose I don't know you that well yet. Maybe that's really how you feel...|j},
