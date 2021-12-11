@@ -1,7 +1,9 @@
 open Script;
 
 let rec script: list(Script.event) = [
-  Narration({js|(Click or tap here to initialize.)|js}),
+  Narration(
+    {js|(Click or tap here to initialize. You can also press Space or Enter to proceed.)|js},
+  ),
   Narration({js|...|js}),
   CompleteIntro,
   Narration({js|A broken, abandoned machine stands before you.|js}),

@@ -113,22 +113,29 @@ module Styles = {
       boxSizing(`borderBox),
     ]);
 
-  let choiceItem =
+  let choiceItem = (~isHighlighted: bool) =>
     style([
-      border(`vmax(0.4), `solid, `hex(CommonStyles.defaultTextHex)),
+      borderStyle(`solid),
+      borderColor(
+        `hex(
+          isHighlighted
+            ? CommonStyles.highlightedChoiceBorderHex
+            : CommonStyles.defaultTextHex,
+        ),
+      ),
       backgroundColor(`hex(CommonStyles.textBoxBackgroundColorHex)),
       width(`percent(100.)),
       media(
         CommonStyles.mediaSizeLarge,
-        [borderWidth(`px(4)), padding(`px(15))],
+        [borderWidth(`px(isHighlighted ? 6 : 4)), padding(`px(15))],
       ),
       media(
         CommonStyles.mediaSizeMiddle,
-        [borderWidth(`px(3)), padding(`px(10))],
+        [borderWidth(`px(isHighlighted ? 5 : 3)), padding(`px(10))],
       ),
       media(
         CommonStyles.mediaSizeSmall,
-        [borderWidth(`px(2)), padding(`px(5))],
+        [borderWidth(`px(isHighlighted ? 4 : 2)), padding(`px(5))],
       ),
       marginRight(`px(10)),
       boxSizing(`borderBox),
@@ -272,6 +279,69 @@ let make = () => {
       [|globalDispatch|],
     );
 
+  let hasRecentlyPressedAdvanceKey = React.useRef(false);
+
+  React.useEffect1(
+    () => {
+      let handler = event => {
+        let keyDelay = 150;
+        React.Ref.current(hasRecentlyPressedAdvanceKey)
+          ? ()
+          : (
+            switch (Webapi.Dom.KeyboardEvent.code(event)) {
+            | "Enter" =>
+              Webapi.Dom.KeyboardEvent.preventDefault(event);
+              Webapi.Dom.KeyboardEvent.stopPropagation(event);
+              globalDispatch(EnterPressed);
+              hasRecentlyPressedAdvanceKey->React.Ref.setCurrent(true);
+              Js.Global.setTimeout(
+                () => {
+                  hasRecentlyPressedAdvanceKey->React.Ref.setCurrent(false)
+                },
+                keyDelay,
+              )
+              ->ignore;
+            | "Space" =>
+              Webapi.Dom.KeyboardEvent.preventDefault(event);
+              Webapi.Dom.KeyboardEvent.stopPropagation(event);
+              globalDispatch(SpacePressed);
+              hasRecentlyPressedAdvanceKey->React.Ref.setCurrent(true);
+              Js.Global.setTimeout(
+                () => {
+                  hasRecentlyPressedAdvanceKey->React.Ref.setCurrent(false)
+                },
+                keyDelay,
+              )
+              ->ignore;
+            | "ArrowUp" =>
+              Webapi.Dom.KeyboardEvent.preventDefault(event);
+              Webapi.Dom.KeyboardEvent.stopPropagation(event);
+              globalDispatch(ArrowUpPressed);
+            | "ArrowDown" =>
+              Webapi.Dom.KeyboardEvent.preventDefault(event);
+              Webapi.Dom.KeyboardEvent.stopPropagation(event);
+              globalDispatch(ArrowDownPressed);
+            | _ => ()
+            }
+          );
+      };
+
+      Webapi.Dom.EventTarget.addKeyDownEventListener(
+        handler,
+        Webapi.Dom.window->Webapi.Dom.Window.asEventTarget,
+      );
+
+      Some(
+        () =>
+          Webapi.Dom.EventTarget.removeKeyDownEventListener(
+            handler,
+            Webapi.Dom.window->Webapi.Dom.Window.asEventTarget,
+          ),
+      );
+    },
+    [|globalDispatch|],
+  );
+
   let isDisplayingChoices = Belt.Option.isSome(globalState.displayedChoices);
 
   <div
@@ -306,14 +376,23 @@ let make = () => {
              {switch (globalState.displayedChoices) {
               | Some(choices) =>
                 <div className=Styles.choicesDiv>
-                  {Belt.Array.mapWithIndex(choices, (index, choice) =>
-                     <FadeInDiv
-                       fadeInTime=Styles.fadeInTime
-                       key={string_of_int(index)}
-                       className=Styles.choiceItem
-                       onClick={_ => globalDispatch(ChoiceSelected(index))}>
-                       <Text> {"> " ++ choice.text} </Text>
-                     </FadeInDiv>
+                  {Belt.Array.mapWithIndex(
+                     choices,
+                     (index, choice) => {
+                       let isHighlighted =
+                         switch (globalState.currentHighlightedChoiceIndex) {
+                         | Some(highlightedIndex) => index == highlightedIndex
+                         | None => false
+                         };
+
+                       <FadeInDiv
+                         fadeInTime=Styles.fadeInTime
+                         key={string_of_int(index)}
+                         className={Styles.choiceItem(~isHighlighted)}
+                         onClick={_ => globalDispatch(ChoiceSelected(index))}>
+                         <Text> {"> " ++ choice.text} </Text>
+                       </FadeInDiv>;
+                     },
                    )
                    ->React.array}
                 </div>

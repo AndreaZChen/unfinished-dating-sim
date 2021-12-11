@@ -11,6 +11,7 @@ let yksiHex = "85009f";
 let kaxigHex = "ad0000";
 let kolmeHex = "003ef7";
 let commentHex = "949494";
+let highlightedChoiceBorderHex = "008080";
 
 let dialogZIndex = 1000;
 let overlayZIndex = 900;

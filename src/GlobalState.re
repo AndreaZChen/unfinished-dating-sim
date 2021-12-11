@@ -4,7 +4,11 @@ type action =
   | HelpDialogClosed
   | BackgroundTransitionHalfwayDone(Background.t)
   | BackgroundTransitionDone
-  | ChoiceSelected(int);
+  | ChoiceSelected(int)
+  | SpacePressed
+  | EnterPressed
+  | ArrowUpPressed
+  | ArrowDownPressed;
 
 type t = {
   script: list(Script.event),
@@ -22,6 +26,7 @@ type t = {
   kolmeAnimationClass: string,
   text: React.element,
   displayedChoices: option(array(Script.choice)),
+  currentHighlightedChoiceIndex: option(int),
   isBatteryLow: bool,
   isIntroDone: bool,
 };
@@ -42,13 +47,14 @@ let defaultState = {
   kolmeAnimationClass: "",
   text: React.null,
   displayedChoices: None,
+  currentHighlightedChoiceIndex: None,
   isBatteryLow: false,
   isIntroDone: false,
 };
 
 let textFadeInTime = 1000;
 
-let reducer = (action: action, state: t) =>
+let rec reducer = (action: action, state: t) =>
   switch (action) {
   | ScriptAdvanced =>
     Belt.Option.isSome(state.displayedChoices)
@@ -147,6 +153,7 @@ let reducer = (action: action, state: t) =>
               {
                 ...state,
                 displayedChoices: Some(choices),
+                currentHighlightedChoiceIndex: None,
                 currentSpeakingCharacter: None,
                 yksiAnimationClass: "",
                 kaxigAnimationClass: "",
@@ -219,7 +226,12 @@ let reducer = (action: action, state: t) =>
     switch (selectedChoice) {
     | Some({result, _}) =>
       ReactUpdate.UpdateWithSideEffects(
-        {...state, displayedChoices: None, script: result},
+        {
+          ...state,
+          displayedChoices: None,
+          currentHighlightedChoiceIndex: None,
+          script: result,
+        },
         self => {
           self.send(ScriptAdvanced);
           None;
@@ -267,4 +279,66 @@ let reducer = (action: action, state: t) =>
     ReactUpdate.Update({...state, isShowingHelpDialog: true})
   | HelpDialogClosed =>
     ReactUpdate.Update({...state, isShowingHelpDialog: false})
+  | ArrowUpPressed =>
+    switch (state.displayedChoices) {
+    | None => ReactUpdate.NoUpdate
+    | Some(choices) =>
+      switch (state.currentHighlightedChoiceIndex) {
+      | Some(prevIndex) =>
+        ReactUpdate.Update({
+          ...state,
+          currentHighlightedChoiceIndex:
+            Some(
+              (prevIndex + Belt.Array.length(choices) - 1)
+              mod Belt.Array.length(choices),
+            ),
+        })
+      | None =>
+        ReactUpdate.Update({
+          ...state,
+          currentHighlightedChoiceIndex:
+            Some(Belt.Array.length(choices) - 1),
+        })
+      }
+    }
+  | ArrowDownPressed =>
+    switch (state.displayedChoices) {
+    | None => ReactUpdate.NoUpdate
+    | Some(choices) =>
+      switch (state.currentHighlightedChoiceIndex) {
+      | Some(prevIndex) =>
+        ReactUpdate.Update({
+          ...state,
+          currentHighlightedChoiceIndex:
+            Some((prevIndex + 1) mod Belt.Array.length(choices)),
+        })
+      | None =>
+        ReactUpdate.Update({
+          ...state,
+          currentHighlightedChoiceIndex: Some(0),
+        })
+      }
+    }
+  | SpacePressed =>
+    state.isShowingHelpDialog
+      ? ReactUpdate.NoUpdate
+      : (
+        switch (state.displayedChoices, state.currentHighlightedChoiceIndex) {
+        | (None, _)
+        | (_, None) => reducer(ScriptAdvanced, state)
+        | (Some(_choices), Some(highlightedIndex)) =>
+          reducer(ChoiceSelected(highlightedIndex), state)
+        }
+      )
+  | EnterPressed =>
+    state.isShowingHelpDialog
+      ? reducer(HelpDialogClosed, state)
+      : (
+        switch (state.displayedChoices, state.currentHighlightedChoiceIndex) {
+        | (None, _)
+        | (_, None) => reducer(ScriptAdvanced, state)
+        | (Some(_choices), Some(highlightedIndex)) =>
+          reducer(ChoiceSelected(highlightedIndex), state)
+        }
+      )
   };

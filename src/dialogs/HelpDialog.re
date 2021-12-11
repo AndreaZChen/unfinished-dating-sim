@@ -18,6 +18,8 @@ let helpText = {js|INSTRUCTIONS:
 
 Click/touch inside the text box to advance the text. When presented with a choice, click/touch your preferred option it to select it.
 
+Alternatively, use Space or Enter to advance, and the arrow keys to highlight a choice when prompted.
+
 Ⓒ 2021 Andrea Zonghao Chen|js};
 
 [@react.component]
