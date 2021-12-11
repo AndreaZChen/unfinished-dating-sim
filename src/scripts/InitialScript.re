@@ -80,8 +80,22 @@ and whoToDateScript = [
   |]),
 ]
 and dateYksiScript: list(Script.event) = [
-  Speech(Yksi, "Oh, how delightful!"),
-  GoToScript(whoToDateScript),
+  ExpressionChange(Yksi, Excited),
+  Speech(Yksi, {js|Oh, how delightful!|js}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {js|I haven't done this in a while, or... possibly ever, depending on how you look at it!|js},
+  ),
+  ExpressionChange(Kolme, Excited),
+  Speech(Kolme, {js|I think the beta testing counts!|js}),
+  ExpressionChange(Kolme, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(Kaxig, {js|beta dating..... lol.|js}),
+  ExpressionChange(Yksi, Angry),
+  Speech(Yksi, {js|Yes, hilarious. Let's initiate date protocols now.|js}),
+  ExpressionChange(Yksi, Neutral),
+  GoToScript(FirstDateYksiScript.script),
 ]
 and dateKaxigScript: list(Script.event) = [
   ExpressionChange(Kaxig, Embarrassed),

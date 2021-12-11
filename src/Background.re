@@ -1,3 +1,4 @@
 type t =
   | Normal
-  | CyberCafe;
+  | CyberCafe
+  | Museum;

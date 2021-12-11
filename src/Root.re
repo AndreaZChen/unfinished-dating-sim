@@ -29,6 +29,11 @@ module Styles = {
           backgroundImage(`url("assets/backgrounds/cafe.jpeg")),
           backgroundSize(`cover),
         ])
+      | Museum =>
+        style([
+          backgroundImage(`url("assets/backgrounds/museum.jpg")),
+          backgroundSize(`cover),
+        ])
       },
     ]);
   };
