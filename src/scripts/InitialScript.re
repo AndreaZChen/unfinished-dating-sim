@@ -100,9 +100,20 @@ and dateYksiScript: list(Script.event) = [
   GoToScript(FirstDateYksiScript.script),
 ]
 and dateKaxigScript: list(Script.event) = [
-  ExpressionChange(Kaxig, Embarrassed),
-  Speech(Kaxig, "haha! you won't regret this... much!!"),
-  GoToScript(whoToDateScript),
+  ExpressionChange(Kaxig, Excited),
+  Speech(Kaxig, {js|haha! you won't regret this... much!!|js}),
+  ExpressionChange(Kolme, Embarrassed),
+  Speech(Kolme, {js|Oh, god. Don't threaten them already!|js}),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(Kaxig, {js|it's my love language.|js}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {js|I sense a trainwreck, but I suppose we're all attached to the same train regardless.|js},
+  ),
+  ExpressionChange(Kaxig, Excited),
+  Speech(Kaxig, {js|ya! let's crash this fucking train already!|js}),
+  GoToScript(FirstDateKaxigScript.script),
 ]
 and dateKolmeScript: list(Script.event) = [
   ExpressionChange(Kolme, Embarrassed),

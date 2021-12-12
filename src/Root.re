@@ -34,6 +34,11 @@ module Styles = {
           backgroundImage(`url("assets/backgrounds/museum.jpg")),
           backgroundSize(`cover),
         ])
+      | Arcade =>
+        style([
+          backgroundImage(`url("assets/backgrounds/deep_fried_arcade.png")),
+          backgroundSize(`cover),
+        ])
       },
     ]);
   };
