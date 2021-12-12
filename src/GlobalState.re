@@ -8,7 +8,8 @@ type action =
   | SpacePressed
   | EnterPressed
   | ArrowUpPressed
-  | ArrowDownPressed;
+  | ArrowDownPressed
+  | MuteButtonClicked;
 
 type t = {
   script: list(Script.event),
@@ -29,6 +30,7 @@ type t = {
   currentHighlightedChoiceIndex: option(int),
   isBatteryLow: bool,
   isIntroDone: bool,
+  isSoundMuted: bool,
 };
 
 let defaultState = {
@@ -50,6 +52,7 @@ let defaultState = {
   currentHighlightedChoiceIndex: None,
   isBatteryLow: false,
   isIntroDone: false,
+  isSoundMuted: false,
 };
 
 let textFadeInTime = 1000;
@@ -100,18 +103,22 @@ let rec reducer = (action: action, state: t) =>
                     </FadeInDiv>
                   </>,
               },
-              _self => {
-                switch (character, state.currentSpeakingCharacter) {
-                | (Yksi, Some(Kaxig) | Some(Kolme) | None) =>
-                  Sounds.yksiNoise1->Sounds.play
-                | (Kaxig, Some(Yksi) | Some(Kolme) | None) =>
-                  Sounds.kaxigNoise1->Sounds.play
-                | (Kolme, Some(Yksi) | Some(Kaxig) | None) =>
-                  Sounds.kolmeNoise1->Sounds.play
-                | (Yksi, Some(Yksi)) => ()
-                | (Kaxig, Some(Kaxig)) => ()
-                | (Kolme, Some(Kolme)) => ()
-                };
+              self => {
+                self.state.isSoundMuted
+                  ? ()
+                  : (
+                    switch (character, state.currentSpeakingCharacter) {
+                    | (Yksi, Some(Kaxig) | Some(Kolme) | None) =>
+                      Sounds.yksiNoise1->Sounds.play
+                    | (Kaxig, Some(Yksi) | Some(Kolme) | None) =>
+                      Sounds.kaxigNoise1->Sounds.play
+                    | (Kolme, Some(Yksi) | Some(Kaxig) | None) =>
+                      Sounds.kolmeNoise1->Sounds.play
+                    | (Yksi, Some(Yksi)) => ()
+                    | (Kaxig, Some(Kaxig)) => ()
+                    | (Kolme, Some(Kolme)) => ()
+                    }
+                  );
                 [@warning "-4"]
                 (
                   switch (nextEvent) {
@@ -341,4 +348,6 @@ let rec reducer = (action: action, state: t) =>
           reducer(ChoiceSelected(highlightedIndex), state)
         }
       )
+  | MuteButtonClicked =>
+    ReactUpdate.Update({...state, isSoundMuted: !state.isSoundMuted})
   };

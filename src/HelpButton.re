@@ -1,14 +1,7 @@
 module Styles = {
   open Css;
 
-  let helpButton =
-    style([
-      position(`absolute),
-      zIndex(CommonStyles.dialogZIndex - 1),
-      top(`px(5)),
-      left(`px(5)),
-      userSelect(`none),
-    ]);
+  let helpButton = style([userSelect(`none)]);
 };
 
 [@react.component]
@@ -19,5 +12,10 @@ let make = (~globalDispatch: GlobalState.action => unit) => {
       [|globalDispatch|],
     );
 
-  <button className=Styles.helpButton onClick> {React.string("?")} </button>;
+  let onKeyDown =
+    React.useCallback0(event => {ReactEvent.Keyboard.stopPropagation(event)});
+
+  <button className=Styles.helpButton onClick onKeyDown>
+    {React.string("?")}
+  </button>;
 };

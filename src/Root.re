@@ -43,11 +43,20 @@ module Styles = {
     ]);
   };
 
+  let buttonArea =
+    style([
+      position(`absolute),
+      display(`flex),
+      zIndex(CommonStyles.dialogZIndex - 1),
+      top(`px(5)),
+      left(`px(5)),
+    ]);
+
   let imageDiv =
     style([
       flexGrow(1.),
       position(`relative),
-      marginTop(`px(50)),
+      marginTop(`px(70)),
       display(`grid),
       alignItems(`end_),
       width(`percent(80.)),
@@ -353,7 +362,10 @@ let make = () => {
     className={Styles.rootWrapper(
       ~backgroundImage=globalState.backgroundImage,
     )}>
-    <HelpButton globalDispatch />
+    <div className=Styles.buttonArea>
+      <HelpButton globalDispatch />
+      <MuteButton isSoundMuted={globalState.isSoundMuted} globalDispatch />
+    </div>
     <BatteryIndicator isBatteryLow={globalState.isBatteryLow} />
     <ScrollToTopProvider value=scrollToTop>
       {globalState.isIntroDone
