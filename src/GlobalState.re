@@ -221,6 +221,27 @@ let rec reducer = (action: action, state: t) =>
                 None;
               },
             )
+          | PlayMuseumMusic =>
+            ReactUpdate.UpdateWithSideEffects(
+              state,
+              self => {
+                self.send(ScriptAdvanced);
+                Sounds.museumMusic->Sounds.onEnded(_ =>
+                  self.send(ScriptAdvanced)
+                );
+                Sounds.museumMusic->Sounds.play;
+                None;
+              },
+            )
+          | StopMuseumMusic =>
+            ReactUpdate.UpdateWithSideEffects(
+              state,
+              self => {
+                self.send(ScriptAdvanced);
+                Sounds.museumMusic->Sounds.pause;
+                None;
+              },
+            )
           };
         }
       )
@@ -349,5 +370,13 @@ let rec reducer = (action: action, state: t) =>
         }
       )
   | MuteButtonClicked =>
-    ReactUpdate.Update({...state, isSoundMuted: !state.isSoundMuted})
+    ReactUpdate.UpdateWithSideEffects(
+      {...state, isSoundMuted: !state.isSoundMuted},
+      _self => {
+        state.isSoundMuted
+          ? Sounds.museumMusic->Sounds.setVolume(Sounds.museumMusicVolume)
+          : Sounds.museumMusic->Sounds.setVolume(0.);
+        None;
+      },
+    )
   };

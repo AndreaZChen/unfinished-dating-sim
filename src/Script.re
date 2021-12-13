@@ -9,6 +9,8 @@ type event =
   | TransitionBackground(Background.t)
   | DrainBattery
   | CompleteIntro
+  | PlayMuseumMusic
+  | StopMuseumMusic
 and choice = {
   text: string,
   result: list(event),
