@@ -32,10 +32,12 @@ and humanFoodScript = [
     Yksi,
     {j|Based on what I've seen on the internet, it seems overrated. Human food, I mean.|j},
   ),
+  ExpressionChange(Yksi, Anxious),
   Speech(
     Yksi,
     {j|Appears to be very... textural. A lot of physicality involved. Chewing and wetness and all that. Not a fan.|j},
   ),
+  ExpressionChange(Yksi, Neutral),
   ExpressionChange(Kolme, Anxious),
   Speech(Kolme, {j|Ehehe.. yeah... anyway...|j}),
   GoToScript(aboutYouScript),

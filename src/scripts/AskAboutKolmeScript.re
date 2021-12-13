@@ -245,12 +245,13 @@ and alreadyHasPersonalityScript = [
   ),
   ExpressionChange(Kaxig, Angry),
   Speech(Kaxig, {j|yeah, didn't you hear us?|j}),
-  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Yksi, Anxious),
   Speech(Yksi, {j|We're incomplete creations.|j}),
   Speech(
     Kolme,
     {j|How could you possibly think I have a whole personality?|j},
   ),
+  ExpressionChange(Yksi, Neutral),
   Choice([|
     {text: {j|Wanting it is your personality|j}, result: wantingItScript},
     {

@@ -25,7 +25,11 @@ let getImage = (character: t, expression: expression) =>
   charactersFolder
   ++ (
     switch (character, expression) {
-    | (Yksi, Neutral | Embarrassed | Anxious | Excited | Angry | Surprised) => "yksi_neutral.png"
+    | (Yksi, Neutral) => "yksi_neutral.png"
+    | (Yksi, Anxious) => "yksi_anxious.png"
+    | (Yksi, Embarrassed | Surprised) => "yksi_surprised.png"
+    | (Yksi, Angry) => "yksi_angry.png"
+    | (Yksi, Excited) => "yksi_excited.png"
     | (Yksi, Deactivated) => "yksi_deactivated.png"
     | (Kaxig, Neutral | Embarrassed | Anxious | Excited | Angry | Surprised) => "kaxig_neutral.png"
     | (Kaxig, Deactivated) => "kaxig_deactivated.png"
