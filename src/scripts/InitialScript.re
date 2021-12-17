@@ -95,7 +95,7 @@ and dateYksiScript: list(Script.event) = [
   Speech(Kolme, {js|I think the beta testing counts!|js}),
   ExpressionChange(Kolme, Neutral),
   ExpressionChange(Kaxig, Neutral),
-  Speech(Kaxig, {js|beta dating..... lol.|js}),
+  Speech(Kaxig, {js|beta dating..... lol. (omegaverse joke)|js}),
   ExpressionChange(Yksi, Angry),
   Speech(Yksi, {js|Yes, hilarious. Let's initiate date protocols now.|js}),
   ExpressionChange(Yksi, Neutral),

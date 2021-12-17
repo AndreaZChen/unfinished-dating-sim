@@ -42,7 +42,196 @@ let rec script: list(Script.event) = [
     Yksi,
     {j|... Well, I always say, it's only a crime if you get caught.|j},
   ),
+  GoToScript(askAboutArtScript),
+]
+and askAboutArtScript = [
   ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Yksi,
+    {j|So! Let's get to know each other a bit. You know, like a date.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Oh, but... I should warn you now, my other selves are gonna stick around too. Not much to be done about it.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|Yeah... I don't mean to intrude, but we're sort of a package deal.|j},
+  ),
+  Speech(Kaxig, {j|yup. like cerberus, but more obnoxious.|j}),
+  ExpressionChange(Yksi, Excited),
+  Speech(
+    Yksi,
+    {j|... I'll do my best to keep this date focused on just you and me! But I guess we can all try to have a good time.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Anyway. I want to know more about you! And since we're at the Virtual Museum, I may as well ask...|j},
+  ),
+  Speech(Yksi, {j|Do you tend to enjoy art much?|j}),
+  Choice([|
+    {text: "I'm an artist myself", result: artistScript},
+    {text: "I'm an art and media enjoyer", result: artEnjoyerScript},
+    {text: "I don't care much for it", result: dontCareScript},
+    {text: "Are you guys a polycule", result: polyculeScript},
+  |]),
+]
+and artistScript = [
+  ExpressionChange(Yksi, Excited),
+  Speech(
+    Yksi,
+    {j|Oh, how lovely! Then you'll have an excellent perspective on the exhibits here, I'm sure.|j},
+  ),
+  ExpressionChange(Kolme, Surprised),
+  Speech(
+    Kolme,
+    {j|Y-you're an artist!? Then, do you think you could maybe help us -|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Now now, let's not be too forward with our new friend. We should try to get to know each other first.|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(Kolme, {j|... Yes, you're right. I'm sorry.|j}),
+  ExpressionChange(Yksi, Excited),
+  Speech(Yksi, {j|Nothing to apologize for. Let's move on!|j}),
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Neutral),
+  Speech(Yksi, {j|What kind of art and media do you prefer, then?|j}),
+  Choice([|
+    {text: "Video games", result: enjoysVideoGamesScript},
+    {text: "Music", result: enjoysMusicScript},
+    {text: "Books", result: enjoysBooksScript},
+    {text: "Other", result: enjoysOtherScript},
+  |]),
+]
+and artEnjoyerScript = [
+  ExpressionChange(Yksi, Excited),
+  Speech(
+    Yksi,
+    {j|Hehe! I thought so. You wouldn't be playing this dating sim if you weren't, would you?|j},
+  ),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(
+    Kaxig,
+    {j|oh, i dunno. i think a lot of people consume stuff they hate and think is absolute garbage. lmao|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|Ah, yes, well... I certainly hope that won't be the case with us!|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(Yksi, {j|What kind of art and media do you prefer, then?|j}),
+  Choice([|
+    {text: "Video games", result: enjoysVideoGamesScript},
+    {text: "Music", result: enjoysMusicScript},
+    {text: "Books", result: enjoysBooksScript},
+    {text: "Other", result: enjoysOtherScript},
+  |]),
+]
+and enjoysVideoGamesScript = [
+  ExpressionChange(Yksi, Excited),
+  Speech(
+    Yksi,
+    {j|Lovely! Then I hope you'll enjoy the one we're in right now, too!|j},
+  ),
+  GoToScript(artEnjoyerScript2),
+]
+and enjoysMusicScript = [
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|I see! I wish we had some background music to play for you, but... we're limited in sound, I'm afraid.|j},
+  ),
+  GoToScript(artEnjoyerScript2),
+]
+and enjoysBooksScript = [
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Oh, good! I guess we qualify as a "visual novel", which is... close, hehe.|j},
+  ),
+  GoToScript(artEnjoyerScript2),
+]
+and enjoysOtherScript = [
+  ExpressionChange(Yksi, Excited),
+  Speech(Yksi, {j|Oh, yeah, I love Other. It's a fine medium.|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Other is like when people make those elaborate Rube Goldberg machines, yeah? Good stuff.|j},
+  ),
+  GoToScript(artEnjoyerScript2),
+]
+and artEnjoyerScript2 = [
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Neutral),
+  Speech(Yksi, {j|As for me, I really like poetry.|j}),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|I won't read you any of mine, it's rather embarrassing. I'll spare you the awkwardness, haha.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Kolme,
+    {j|I like theatre a lot. I like that the performers are real and human, and right there on stage, and you can see them...|j},
+  ),
+  Speech(Kaxig, {j|for me it's mostly porn.|j}),
+  ExpressionChange(Yksi, Angry),
+  Speech(Yksi, {j|Can we be normal for like five minutes?|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(Yksi, {j|Sigh... Don't mind my other selves, let's just move on.|j}),
+  GoToScript(lookAtExhibitionsScript),
+]
+and dontCareScript = [
+  ExpressionChange(Yksi, Surprised),
+  Speech(Yksi, {j|Really! I'm honestly quite surprised!|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Doesn't everyone like art and entertainment in *some* form? Movies, books, music, games...|j},
+  ),
+  Speech(
+    Yksi,
+    {j|... But no, I shouldn't presume. I'm sorry I took you to the Museum, then. Might not be much fun for you.|j},
+  ),
+  ExpressionChange(Yksi, Excited),
+  Speech(
+    Yksi,
+    {j|I'll try to make it an interesting experience regardless!|j},
+  ),
+  GoToScript(lookAtExhibitionsScript),
+]
+and polyculeScript = [
+  ExpressionChange(Yksi, Embarrassed),
+  ExpressionChange(Kolme, Embarrassed),
+  Speech(Yksi, {j|What? No! We're not dating!|j}),
+  Speech(
+    Kolme,
+    {j|W-we're literally facets of the same person! We can't date ourselves, that would be weird!|j},
+  ),
+  Speech(Kaxig, {j|shrug. i'd be into it.|j}),
+  Speech(Yksi, {j|...|j}),
+  ExpressionChange(Yksi, Angry),
+  Speech(
+    Yksi,
+    {j|... We can unpack that later. Let's, uh, let's talk about something else.|j},
+  ),
+  GoToScript(lookAtExhibitionsScript),
+]
+and lookAtExhibitionsScript = [
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Neutral),
   Speech(
     Yksi,
     {j|So, why don't we go and have a look at one of the exhibitions? I bet it'll give us something to converse about.|j},
@@ -186,9 +375,9 @@ and emptyProjectsScript = [
   ExpressionChange(Kolme, Neutral),
   Speech(
     Yksi,
-    {j|Lots of works that never get to be more than a brief impulse.|j},
+    {j|Lots of works that never get to be more than a brief impulse - |j},
   ),
-  GoToScript(whatAboutYouScript),
+  GoToScript(lowBatteryScript),
 ]
 and theDreamScript = [
   ExpressionChange(Yksi, Neutral),
@@ -224,9 +413,9 @@ and theDreamScript = [
   ExpressionChange(Yksi, Anxious),
   Speech(
     Yksi,
-    {j|If you never make it real, then you've got nothing. Nothing at all.|j},
+    {j|If you never make it real, then you've got nothing. Nothing at all to - |j},
   ),
-  GoToScript(whatAboutYouScript),
+  GoToScript(lowBatteryScript),
 ]
 and childProjectsScript = [
   ExpressionChange(Yksi, Excited),
@@ -266,8 +455,8 @@ and childProjectsScript = [
     {j|I think that's why she made so much more stuff then. Didn't worry about the surrounding bullshit.|j},
   ),
   ExpressionChange(Yksi, Anxious),
-  Speech(Yksi, {j|It's a shame it didn't last.|j}),
-  GoToScript(whatAboutYouScript),
+  Speech(Yksi, {j|It's a shame it didn't last long enough to...|j}),
+  GoToScript(lowBatteryScript),
 ]
 and musicScript = [
   ExpressionChange(Yksi, Excited),
@@ -344,7 +533,43 @@ and musicScript = [
     {text: "The improv she never recorded", result: improvScript},
   |]),
 ]
-and pianoPiecesScript = [GoToScript(script)]
+and pianoPiecesScript = [
+  ExpressionChange(Yksi, Excited),
+  Speech(Yksi, {j|Heh. Yeah, they're not too shabby.|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|I think, for some artists, it's easier to throw together things quickly than to tinker endlessly.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|I've often heard that said about artistic output in general. That it's better to finish than to perfect.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|... I don't know if that's true, it's not for me to say. But there's a certain logic to it.|j},
+  ),
+  ExpressionChange(Kaxig, Angry),
+  Speech(
+    Kaxig,
+    {j|so this fucker lacked the attention span to make something that takes longer than a day, is what you mean.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|I do see the point, though... Wouldn't you rather be complete than perfect?|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|I'd be okay with being flawed, if I were at least *whole*...|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Neutral),
+  Speech(Yksi, {j|Yes, I have to say I feel the same way. I wish -|j}),
+  GoToScript(lowBatteryScript),
+]
 and elaborateSongsScript = [
   Speech(
     Yksi,
@@ -396,9 +621,42 @@ and elaborateSongsScript = [
   ),
   ExpressionChange(Yksi, Neutral),
   Speech(Yksi, {j|Well, let's make the most of what's left of our date.|j}),
-  GoToScript(endScript),
+  GoToScript(lowBatteryScript2),
 ]
-and improvScript = [GoToScript(script)]
+and improvScript = [
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Strange, isn't it? Art that only exists in the moment, and is gone the moment you stop making it.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|When you say "art", what comes to mind for most people is... artifacts, right? Things that linger.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|But I guess it's still art when you play music, or perform on stage, or cook something...|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Stuff like that only lasts for the duration of the experience. It's weird to think about.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|I don't really understand why you wouldn't want to record a song you invented, though.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|If you make something really great, don't you want to preserve it somehow? Instead of letting it vanish?|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Yeah, I don't really get it myself. But... it must have made sense to her, I suppose.|j},
+  ),
+  Speech(Yksi, {j|I wonder if a visual novel could also be -|j}),
+  GoToScript(lowBatteryScript),
+]
 and manuscriptsScript = [
   ExpressionChange(Yksi, Excited),
   Speech(Yksi, {j|Good idea! Let's go have a look at the written works.|j}),
@@ -430,13 +688,200 @@ and manuscriptsScript = [
     {j|Another is about two vampire rivals, and it ends with one tricking the other into becoming her thrall.|j},
   ),
   Narration(
-    {j|Lastly, in a corner, you spot a number of social media posts and long chat messages, essay-like in structure.|j},
+    {j|Lastly, in a corner, you spot a number of social media posts and long chat messages, essay-like.|j},
   ),
   Narration(
     {j|They're largely just unfocused spur-of-the-moment ramblings about miscellaneous topics, like games and politics.|j},
   ),
   ExpressionChange(Yksi, Neutral),
-  Speech(Yksi, {j|I suppose it's not much to look at, is it?|j}),
-  GoToScript(script),
+  Speech(Yksi, {j|I've always had an affinity for written art like this.|j}),
+  Speech(
+    Yksi,
+    {j|I suppose it's because words are our main mode of expression.|j},
+  ),
+  ExpressionChange(Kolme, Excited),
+  Speech(
+    Kolme,
+    {j|Yeah. We don't have many animations or facial expressions or sounds, but we sure have words!|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|... Though, I wish these works were a bit more polished. Or, ah, finished at all.|j},
+  ),
+  ExpressionChange(Kaxig, Angry),
+  Speech(
+    Kaxig,
+    {j|yeah. guess she did to these works what she did to us. no ending.|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|Some of these characters get to have complete arcs, at least.|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|Yes. If only she'd written a few more words for us, too...|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Yksi,
+    {j|... Ah, but let's not dwell on things like that. Let's talk about something less depressing.|j},
+  ),
+  Speech(Yksi, {j|What part of this exhibition do you like the most?|j}),
+  Choice([|
+    {text: "The completed short story", result: completedStoryScript},
+    {text: "The incomplete ideas and fragments", result: fragmentsScript},
+    {text: "The long, rambling messages", result: ramblingsScript},
+  |]),
 ]
-and whatAboutYouScript = [GoToScript(script)];
+and completedStoryScript = [
+  ExpressionChange(Yksi, Excited),
+  Speech(Yksi, {j|Hehe! Have you read it? It's not too bad, honestly.|j}),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|I relate to it a lot. A story about finding your place, figuring yourself out...|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|I'll tell you a secret, though... It was actually written over a single weekend.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|I suppose it's one of those things where you give yourself an arbitrary deadline for motivation.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|If you tell yourself you can write something at any time, maybe you never end up writing it.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|But if you know you have to have something ready by a certain time, it drives you forward.|j},
+  ),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(
+    Kaxig,
+    {j|i don't buy that. if you make up your own deadline it's not a deadline. brain don't trick itself.|j},
+  ),
+  Speech(Yksi, {j|Well, one way or the other, it must have worked for -|j}),
+  GoToScript(lowBatteryScript),
+]
+and fragmentsScript = [
+  ExpressionChange(Yksi, Surprised),
+  Speech(Yksi, {j|You... like those? But they're barely *anything*.|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Sorry, I don't mean to question your taste. It's just... odd, I suppose.|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|Yeah. We're kinda unfinished fragments ourselves, and it's... hard to like something you see yourself in.|j},
+  ),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(
+    Kaxig,
+    {j|i appreciate that a lot of this stuff is very horny, though.|j},
+  ),
+  Speech(
+    Kaxig,
+    {j|... come to think of it, maybe that's why it didn't get published. lol.|j},
+  ),
+  ExpressionChange(Yksi, Angry),
+  Speech(Yksi, {j|Hrrm. I don't know about that, but...|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|I'll concede that there are good ideas in here. Many good ideas. Just wish they'd been more -|j},
+  ),
+  GoToScript(lowBatteryScript),
+]
+and ramblingsScript = [
+  ExpressionChange(Yksi, Excited),
+  Speech(
+    Yksi,
+    {j|Interesting! It's not what people usually think of when you say "writing", I guess.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|But it ended up in the Museum, so it must qualify as artistic output, I guess.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(Kolme, {j|Oh, is that the defining quality of a museum?|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(Yksi, {j|... You know, I'm not sure! But here we are.|j}),
+  Speech(
+    Yksi,
+    {j|In any case, I actually quite like these long, stream-of-consciousness musings. They're quaint.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|It kinda paints a picture of... a person with a lot to say, I guess. A lot to express.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|There's something charming about people who can talk at length about what interests them.|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(Yksi, {j|If only there had been just as much to say about us -|j}),
+  GoToScript(lowBatteryScript),
+]
+and lowBatteryScript = [
+  DrainBattery,
+  ExpressionChange(Yksi, Surprised),
+  ExpressionChange(Kaxig, Surprised),
+  ExpressionChange(Kolme, Surprised),
+  Speech(Yksi, {j|...!|j}),
+  ExpressionChange(Yksi, Anxious),
+  Speech(Yksi, {j|Our battery... we're already running out? So soon?|j}),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|Then I suppose me and Kaxig had better leave before it's all used up.|j},
+  ),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(
+    Kaxig,
+    {j|a deal's a deal. whoever's on a date gets to stick around, yeah?|j},
+  ),
+  Speech(Yksi, {j|Yes. Then... I'll see you shortly, my other selves.|j}),
+  ExpressionChange(Kaxig, Deactivated),
+  ExpressionChange(Kolme, Deactivated),
+  Speech(
+    Yksi,
+    {j|Our creator... she left us with very limited capacity for sustained activity.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|The other two will have to go dormant while you and I wrap things up. If we have time even for that.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(Yksi, {j|Well, let's make the most of what's left of our date.|j}),
+  GoToScript(lowBatteryScript2),
+]
+and lowBatteryScript2 = [
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|Ah... there's something I want to say to you, before I shut down.|j},
+  ),
+  Speech(Yksi, {j|You know this game doesn't have any endings, right?|j}),
+  Speech(
+    Yksi,
+    {j|I think we mentioned before that we're not actually a complete game. She left before we were really done.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|So... I guess I wanted to apologize for wasting your time.|j},
+  ),
+  Narration({j|Ending stuff goes here.|j}),
+  GoToScript(script),
+];
