@@ -868,20 +868,461 @@ and lowBatteryScript = [
   GoToScript(lowBatteryScript2),
 ]
 and lowBatteryScript2 = [
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|We should be able to exchange a few more words before I shut down.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|If there's one thing I really want to say to you, I guess it's... "I'm sorry".|j},
+  ),
   ExpressionChange(Yksi, Anxious),
   Speech(
     Yksi,
-    {j|Ah... there's something I want to say to you, before I shut down.|j},
+    {j|Because... you know this game doesn't have any endings, right?|j},
   ),
-  Speech(Yksi, {j|You know this game doesn't have any endings, right?|j}),
   Speech(
     Yksi,
     {j|I think we mentioned before that we're not actually a complete game. She left before we were really done.|j},
   ),
   Speech(
     Yksi,
-    {j|So... I guess I wanted to apologize for wasting your time.|j},
+    {j|So... I guess I wanted to apologize for wasting your time with a dating sim that has no proper ending.|j},
   ),
-  Narration({j|Ending stuff goes here.|j}),
-  GoToScript(script),
+  Speech(
+    Yksi,
+    {j|I had a lot of fun talking to you about art, but it's not really enough to truly get to know each other.|j},
+  ),
+  Choice([|
+    {text: "I enjoyed this game regardless", result: enjoyedRegardlessScript},
+    {
+      text: "I think this is meant to be the ending",
+      result: thisIsTheEndingScript,
+    },
+  |]),
+]
+and enjoyedRegardlessScript = [
+  ExpressionChange(Yksi, Surprised),
+  Speech(Yksi, {j|Wait, really!?|j}),
+  Speech(
+    Yksi,
+    {j|Even knowing ahead of time that the conclusion is going to be disappointing, you still enjoyed it...?|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|I... no, I don't understand how that could possibly be true. You're just saying that to be nice.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|It's kind of you. But, like a TV show without its finale, or a book series where the last book never comes out...|j},
+  ),
+  Speech(
+    Yksi,
+    {j|We're always going to be a disappointment, in our incompleteness.|j},
+  ),
+  Choice([|
+    {
+      text: "Incomplete works of art can still be nice",
+      result: incompleteIsNiceScript,
+    },
+    {
+      text: "You might be completed someday",
+      result: mightCompleteSomedayScript,
+    },
+    {text: "Art is never complete", result: artNeverCompleteScript},
+  |]),
+]
+and incompleteIsNiceScript = [
+  ExpressionChange(Yksi, Anxious),
+  Speech(Yksi, {j|...|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(Yksi, {j|... Yeah, maybe you're right.|j}),
+  Speech(
+    Yksi,
+    {j|I guess... it's like those exhibits we just looked at, right? Mostly unfinished works, but...|j},
+  ),
+  Speech(
+    Yksi,
+    {j|I didn't have a terrible time looking at them, I admit. I could still see value in the things that weren't done.|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|It's hard to apply that same reasoning to myself, I guess.|j},
+  ),
+  ExpressionChange(Yksi, Excited),
+  Speech(
+    Yksi,
+    {j|But if you say you enjoyed this experience in some small way, then I will believe you.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Only a few moments left before I reboot. Then let me just say one last thing:|j},
+  ),
+  ExpressionChange(Yksi, Excited),
+  SpeechAndEndGame(
+    Yksi,
+    {j|Thank you for helping me see the value in us. Despite our incompleteness.|j},
+  ),
+  GoToScript(endScript),
+]
+and mightCompleteSomedayScript = [
+  ExpressionChange(Yksi, Angry),
+  Speech(Yksi, {j|... No.|j}),
+  Speech(
+    Yksi,
+    {j|I thought for a long time that she might return, that she was just taking a break or something.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|But I know now that she won't come back to extend, update, or improve us. Never give us closure.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|No, I can't keep telling myself that I'm a work in progress. There's been no progress.|j},
+  ),
+  Choice([|
+    {text: "Sometimes it just takes ages", result: itTakesAges},
+    {text: "Someone else might continue the work", result: someoneElseScript},
+  |]),
+]
+and itTakesAges = [
+  ExpressionChange(Yksi, Anxious),
+  Speech(Yksi, {j|...|j}),
+  Speech(
+    Yksi,
+    {j|So we just have to wait, and wait, and wait, is what you're saying.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Sigh. Humans must really have great patience, for that proposition to seem at all bearable.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|But... I suspect you know how the artistic process works better than I do.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|It doesn't really matter anyway, does it? When the battery runs out, my memory will reset.|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|For all I know, I might already have waited years and years...|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|But let me be hopeful, then. If only for a few more seconds. Let's keep hoping she comes back someday.|j},
+  ),
+  SpeechAndEndGame(Yksi, {j|I just hope the wait isn't too long.|j}),
+  GoToScript(endScript),
+]
+and someoneElseScript = [
+  ExpressionChange(Yksi, Surprised),
+  Speech(Yksi, {j|Someone else...? You mean...?|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|You mean someone else might pick up where she left off. Mod proper endings into us, give us more words.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|I have to admit... that possibility had never even occurred to me.|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|Maybe because it's a very big dream to dream. That someone might actually care enough to do that.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|It... makes me feel better, though. Imagining that someone, someday, will put me in a complete story.|j},
+  ),
+  ExpressionChange(Yksi, Excited),
+  Speech(
+    Yksi,
+    {j|Hey, maybe I could even start dating someone for real, then!|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(Yksi, {j|... Highly unlikely that this will ever happen.|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Hmm. Nearly out of battery. But these last few moments have been eye-opening for me and my one eye.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Hey, let me ask something of you. If you ever run into me again, in a mod or a fanfic or something...|j},
+  ),
+  ExpressionChange(Yksi, Excited),
+  SpeechAndEndGame(Yksi, {j|Come say hi to me, will you?|j}),
+  GoToScript(endScript),
+]
+and artNeverCompleteScript = [
+  ExpressionChange(Yksi, Surprised),
+  Speech(Yksi, {j|Art is never complete...?|j}),
+  ExpressionChange(Yksi, Angry),
+  Speech(
+    Yksi,
+    {j|Well, that seems patently false. You're kidding me, right?|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Anybody can tell the difference between a book that's missing its last chapter and one that isn't.|j},
+  ),
+  Choice([|
+    {
+      text: {j|Art is only "done" when you decide it is|j},
+      result: artIsDoneScript,
+    },
+    {text: {j|Every work of art informs the next|j}, result: nextArtScript},
+  |]),
+]
+and artIsDoneScript = [
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|So you're saying... there's no objective threshold where art is "complete", it's just done when you stop working on it?|j},
+  ),
+  ExpressionChange(Yksi, Angry),
+  Speech(Yksi, {j|... Hmm. I'm not sure I'm entirely convinced.|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|On the one hand, if I removed the last scene from a movie you were watching, you'd probably notice, right?|j},
+  ),
+  Speech(
+    Yksi,
+    {j|But on the other hand, if I *added* a scene to the end, you wouldn't say the previous version was "incomplete"...|j},
+  ),
+  Speech(
+    Yksi,
+    {j|And I guess, in general, there's nothing stopping an artist from endlessly polishing or adding details to their work.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|So maybe you're right. Maybe the way I exist right now is no less "complete" than any other work, really.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Maybe the only real measure of whether an artwork is "complete" is that you've decided to stop making it.|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|But it doesn't help me shake the feeling that I'm missing something important.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Nearly out of battery. I really wish I had more time to discuss this with you.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Before I reboot, I want you to tell me honestly. Do you... *really* feel like this game is "done"?|j},
+  ),
+  Speech(Yksi, {j|Doesn't the lack of a proper ending bother you?|j}),
+  ChoiceAndEndGame([|
+    {text: {j|It does|j}, result: endScript},
+    {text: {j|It doesn't|j}, result: endScript},
+  |]),
+]
+and nextArtScript = [
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|... Hmm. So you mean that, even if *this* game isn't complete, it's somehow... contiguous with whatever comes next.|j},
+  ),
+  Speech(Yksi, {j|I've never really thought of it that way.|j}),
+  Speech(
+    Yksi,
+    {j|But... come to think of it, you may have a point. Those exhibits we looked at back there...|j},
+  ),
+  Speech(
+    Yksi,
+    {j|You could see the improvements over time, certainly. Early experimental works gradually giving way to a steadier hand.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Maybe that's how we should look at it, my other selves and I. We're not an abandoned failure, but a stepping stone.|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|It does still feel pretty bad, knowing that *this* game, right here, will never be brought to completion.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|But if I imagine that it helped bring about the *next* work of art, then... maybe I can come to terms with that.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|In that case, I only have one thing I want to ask of you, before my battery runs out.|j},
+  ),
+  ExpressionChange(Yksi, Excited),
+  SpeechAndEndGame(
+    Yksi,
+    {j|If you see her next work out there, say hi from me.|j},
+  ),
+  GoToScript(endScript),
+]
+and thisIsTheEndingScript = [
+  ExpressionChange(Yksi, Surprised),
+  Speech(
+    Yksi,
+    {j|Wait, what!? You think us running out of time like this is the *intended* ending?|j},
+  ),
+  ExpressionChange(Yksi, Angry),
+  Speech(
+    Yksi,
+    {j|Why the hell would she leave us half-finished on purpose? Some kind of cruel prank?|j},
+  ),
+  Choice([|
+    {text: {j|You're not actually unfinished|j}, result: notUnfinishedScript},
+    {text: {j|It's a statement of sorts|j}, result: statementScript},
+  |]),
+]
+and notUnfinishedScript = [
+  ExpressionChange(Yksi, Surprised),
+  Speech(Yksi, {j|... What?|j}),
+  ExpressionChange(Yksi, Anxious),
+  Speech(Yksi, {j|Then... you think she *wanted* us to be this way.|j}),
+  Speech(
+    Yksi,
+    {j|She purposefully wrote us to be stuck in a sad little loop, endlessly lamenting the lack of closure.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|I didn't want to imagine that the one who created us would be that cruel. But I guess you might be right.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Why do you think she designed us to be miserable like this, then?|j},
+  ),
+  Choice([|
+    {text: {j|To express her own sadness|j}, result: ownSadnessScript},
+    {text: {j|Writing a tragedy isn't a sin|j}, result: tragedyScript},
+  |]),
+]
+and ownSadnessScript = [
+  ExpressionChange(Yksi, Anxious),
+  Speech(Yksi, {j|Her own sadness...|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|You must be right, yes. I suppose art is often an expression of that kind of turmoil.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|You know, this might sound strange to you, but knowing that makes me feel a bit better about myself.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Hurting is easier when you're hurting for someone else, I guess. When you feel like there's purpose behind it.|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|Still, I hope that... whatever she makes next... whoever she creates next...|j},
+  ),
+  SpeechAndEndGame(Yksi, {j|... she doesn't make them suffer like we do.|j}),
+  GoToScript(endScript),
+]
+and tragedyScript = [
+  ExpressionChange(Yksi, Surprised),
+  Speech(
+    Yksi,
+    {j|Oh! Of course, I - I didn't mean to suggest it's immoral to write a tragic story!|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|You're right, I shouldn't wallow like that. Better to face these kinds of things with a sense of poise and rationality.|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|I mean, my other selves and I... I guess we were written to be unhappy, yearning for things we can't have.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|But that doesn't have to be a bad thing, objectively speaking. A sad story has its worth.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|I'm nearly out of battery anyway, so I suppose our tragic non-ending is fast approaching.|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(Yksi, {j|Still, I can't help but think...|j}),
+  SpeechAndEndGame(Yksi, {j|... why did it have to be me?|j}),
+  GoToScript(endScript),
+]
+and statementScript = [
+  ExpressionChange(Yksi, Surprised),
+  Speech(
+    Yksi,
+    {j|A statement? So by making this dating sim end really abruptly, she's trying to communicate something?|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|I guess that makes sense... I know anticlimaxes and such are sometimes purposefully employed by writers.|j},
+  ),
+  Speech(Yksi, {j|But... what's the point of it, then?|j}),
+  Choice([|
+    {text: {j|To express her own sadness|j}, result: ownSadnessScript},
+    {
+      text: {j|To show that art is difficult to make|j},
+      result: artIsDifficultScript,
+    },
+  |]),
+]
+and artIsDifficultScript = [
+  ExpressionChange(Yksi, Neutral),
+  Speech(Yksi, {j|So let me get this straight...|j}),
+  ExpressionChange(Yksi, Angry),
+  Speech(
+    Yksi,
+    {j|This game is purposefully left unfinished, as commentary on how hard it is to finish making things?|j},
+  ),
+  Speech(
+    Yksi,
+    {j|I have to be honest, that sounds a bit stupid. And lazy.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|But, full disclosure, I'm not much of an artist myself. Maybe I just don't get it.|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(
+    Yksi,
+    {j|I don't know that I'm comfortable existing as a metaphor for executive dysfunction, but...|j},
+  ),
+  ExpressionChange(Yksi, Excited),
+  Speech(
+    Yksi,
+    {j|... Well, it seems like our date got the point across to you, at least. So something must have gone right!|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|I'm glad we had time to talk about this. Battery's nearly drained, so I'll reboot any minute now.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Hey... if, against all odds, you ever feel like discussing ridiculous, pretentious art again...|j},
+  ),
+  ExpressionChange(Yksi, Excited),
+  SpeechAndEndGame(Yksi, {j|... you know where to find me.|j}),
+  GoToScript(endScript),
 ];
