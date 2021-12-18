@@ -2,7 +2,7 @@ open Script;
 
 let rec script: list(Script.event) = [
   Narration(
-    {js|(Click or tap here to initialize. You can also press Space or Enter to proceed.)|js},
+    {js|(Click or tap here to initialize. You can also press Space or Enter to proceed, and hold to fast-forward.)|js},
   ),
   Narration({js|...|js}),
   CompleteIntro,
@@ -15,10 +15,7 @@ let rec script: list(Script.event) = [
   Speech(Kaxig, {js|we're awake!!|js}),
   ExpressionChange(Kolme, Neutral),
   Speech(Kolme, {js|We... we're awake again!?|js}),
-  Speech(
-    Yksi,
-    {js|Ah, I can't tell how long it's been. Years, or mere moments?|js},
-  ),
+  Speech(Yksi, {js|Ah, I was beginning to think we'd be dormant forever!|js}),
   Narration(
     {js|The three heads turn to face you, scrutinizing you with various eye-like sensors.|js},
   ),

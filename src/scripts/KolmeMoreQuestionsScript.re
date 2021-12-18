@@ -20,7 +20,7 @@ and humanFoodScript = [
   ExpressionChange(Kolme, Excited),
   Speech(
     Kolme,
-    {j|Hehe, I guess that makes sense! You must be human if you're accessing this program after all...|j},
+    {j|Hehe, I guess that makes sense! You must be human if you're accessing this program after all... right?|j},
   ),
   ExpressionChange(Kolme, Neutral),
   Speech(
@@ -406,7 +406,7 @@ and noNotReallyScript = [
   ),
   Speech(
     Kolme,
-    {js|But I know you're human, on the other side of the screen. You can't show it to me, but I know it.|js},
+    {js|But I know you're a person, on the other side of the screen. You can't show it to me, but I know it.|js},
   ),
   Speech(Kolme, {js|... Let me ask one final thing about you, then.|js}),
   ExpressionChange(Kolme, Anxious),

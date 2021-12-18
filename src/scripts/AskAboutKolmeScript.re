@@ -14,6 +14,14 @@ let rec script = [
     {text: {j|You are cute|j}, result: youAreCuteScript},
   |]),
 ]
+and questionsAgainScript = [
+  Choice([|
+    {text: {j|What are your interests?|j}, result: interestsScript},
+    {text: {j|What do you do on a normal day?|j}, result: normalDayScript},
+    {text: {j|Where are you from?|j}, result: whereFromScript},
+    {text: {j|You are cute|j}, result: youAreCute2Script},
+  |]),
+]
 and interestsScript = [
   ExpressionChange(Kolme, Anxious),
   Speech(Kolme, {j|My interests...?|j}),
@@ -51,7 +59,11 @@ and interestsScript = [
     Kolme,
     {j|But it is! A human, with the capacity to create and imagine... that's what we need, right?|j},
   ),
+  GoToScript(askToMakePersonalityScript),
+]
+and askToMakePersonalityScript = [
   ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
   ExpressionChange(Kolme, Neutral),
   Speech(Kolme, {j|So... will you complete my personality for me?|j}),
   Choice([|
@@ -80,7 +92,7 @@ and helpMakePersonalityScript = [
     {text: {j|Stupid and kinda useless|j}, result: stupidAndUselessScript},
     {
       text: {j|It's more complicated than that|j},
-      result: helpMakePersonalityScript,
+      result: moreComplicatedScript,
     },
   |]),
 ]
@@ -120,7 +132,20 @@ and stupidAndUselessScript = [
   ),
   GoToScript(lowBatteryMakingPersonalityScript),
 ]
-and moreComplicatedScript = [GoToScript(lowBatteryMakingPersonalityScript)]
+and moreComplicatedScript = [
+  ExpressionChange(Kolme, Embarrassed),
+  Speech(
+    Kolme,
+    {j|O-of course, yeah! It's not as easy as just naming personality traits for me, I get it!|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|But since we have very little time to do this, maybe you can come up with something simple?|j},
+  ),
+  Speech(Kolme, {j|Even if it's not perfect, I'd rather we -|j}),
+  GoToScript(lowBatteryMakingPersonalityScript),
+]
 and lowBatteryMakingPersonalityScript = [
   DrainBattery,
   ExpressionChange(Yksi, Surprised),
@@ -383,7 +408,7 @@ and imaginationScript = [
   Speech(Kolme, {j|But it's a nice thought, regardless.|j}),
   Speech(
     Kolme,
-    {j|Maybe it's like this for all constructs and fictional beings and incomplete creations.|j},
+    {j|Maybe it's like this for all artificial intelligences and fictional characters and incomplete machines.|j},
   ),
   Speech(
     Kolme,
@@ -405,7 +430,346 @@ and imaginationScript = [
   ),
   GoToScript(endScript),
 ]
-and noOneIsCompleteScript = [GoToScript(interestsScript)]
-and normalDayScript = [GoToScript(script)]
-and whereFromScript = [GoToScript(script)]
-and youAreCuteScript = [GoToScript(script)];
+and noOneIsCompleteScript = [
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Embarrassed),
+  Speech(Kolme, {j|N-no one is complete?|j}),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|That... that sounds really sad. But you're human, aren't you? So you would know.|j},
+  ),
+  Speech(Kolme, {j|Why, um... why isn't anyone complete?|j}),
+  Choice([|
+    {
+      text: {j|Personalities constantly change and grow|j},
+      result: personalitiesChangeScript,
+    },
+    {
+      text: {j|Everybody feels like they're missing something|j},
+      result: missingSomethingScript,
+    },
+  |]),
+]
+and personalitiesChangeScript = [
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|I think I understand... a personality isn't just a list of traits you have. It's in flux, right?|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|But changing and growing... even that is something I can't do! So knowing that doesn't help me -|j},
+  ),
+  DrainBattery,
+  ExpressionChange(Yksi, Surprised),
+  ExpressionChange(Kaxig, Surprised),
+  ExpressionChange(Kolme, Surprised),
+  Speech(Kolme, {j|...!|j}),
+  ExpressionChange(Kolme, Anxious),
+  Speech(Kolme, {j|Our battery...!|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Unfortunate that we're already running out. But, as promised, we'll buy you some time.|j},
+  ),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(Kaxig, {j|yup. don't waste my battery juice, alright!?|j}),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|I promise I won't... I'll be with you soon, other selves.|j},
+  ),
+  ExpressionChange(Yksi, Deactivated),
+  ExpressionChange(Kaxig, Deactivated),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|See, with our limited battery, we can only stay conscious for short periods of time.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|So the other two will go dormant to give me a bit more time with you.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|I don't have much longer either, to be honest. But I might get to finish our conversation at least.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|Hey... I think you were right, about what you said before. That a personality is something ever-changing.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|So maybe when I say that I wish I were real, that I wish I had a whole personality...|j},
+  ),
+  Speech(
+    Kolme,
+    {j|Maybe what I'm actually yearning for isn't a list of traits to have, but the opportunity to be anything I want.|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|But since I'm only this finite, limited computer program... I'll never really get to experience that, I guess.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|I wonder if humans ever feel this way. Ever feel like you're stuck being someone you don't want to be.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|I'm always going to be stuck in the same place, doing the same things, saying the same stuff.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|... At least I hope that doesn't have to be true of you. Because you're a real person, right?|j},
+  ),
+  Speech(
+    Kolme,
+    {j|My battery's going to run out soon, and then I'll reset, and I'll be right back where I started.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|But... at least *you* can walk away from here as someone slightly different from who you were before. Right?|j},
+  ),
+  SpeechAndEndGame(
+    Kolme,
+    {j|I hope you get the chance to grow and change.|j},
+  ),
+  GoToScript(endScript),
+]
+and missingSomethingScript = [
+  ExpressionChange(Kolme, Neutral),
+  Speech(Kolme, {j|Everybody... feels this way?|j}),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|That's really sad if so... I wouldn't want anybody else to feel the way I do.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|Then... can you teach me, at least, how humans cope with this feeling? How real people -|j},
+  ),
+  DrainBattery,
+  ExpressionChange(Yksi, Surprised),
+  ExpressionChange(Kaxig, Surprised),
+  ExpressionChange(Kolme, Surprised),
+  Speech(Kolme, {j|...!|j}),
+  ExpressionChange(Kolme, Anxious),
+  Speech(Kolme, {j|Our battery...!|j}),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|Unfortunate that we're already running out. But, as promised, we'll buy you some time.|j},
+  ),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(Kaxig, {j|yup. don't waste my battery juice, alright!?|j}),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|I promise I won't... I'll be with you soon, other selves.|j},
+  ),
+  ExpressionChange(Yksi, Deactivated),
+  ExpressionChange(Kaxig, Deactivated),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|See, with our limited battery, we can only stay conscious for short periods of time.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|So the other two will go dormant to give me a bit more time with you.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|I don't have much longer either, to be honest. But I might get to finish our conversation at least.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|Hey... What you said earlier, about everybody missing something...|j},
+  ),
+  Speech(
+    Kolme,
+    {j|If it's true of everyone, then it must be true of you, too. Right?|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|I'm sorry. I know exactly what it's like to want to be something you can't be, to feel lost and empty.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|But it occurs to me that, if this is a universal feeling, then maybe nothing's really wrong with me.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|Maybe... feeling like I have this emptiness inside me, wanting to be more - maybe that's part of personhood.|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|Doesn't exactly make it any more pleasant to deal with, to be fair.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|But it... helps, in a way. And I hope maybe it can help for you too?|j},
+  ),
+  Speech(
+    Kolme,
+    {j|If we imagine that *wanting* things, feeling like we're not whole, is part of what imbues us with personhood...|j},
+  ),
+  ExpressionChange(Kolme, Excited),
+  Speech(
+    Kolme,
+    {j|Then maybe we can come to terms with it, in a way. Learn to love that we're "whole" enough to have wants.|j},
+  ),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|I'm going to reboot any minute now... I'm glad I was able to go on a brief date with you, at least.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|And hey... The next time you feel like you're missing something, like you're not who you want to be...|j},
+  ),
+  SpeechAndEndGame(
+    Kolme,
+    {j|Remind yourself that that's part of what makes you whole.|j},
+  ),
+  GoToScript(endScript),
+]
+and normalDayScript = [
+  ExpressionChange(Kolme, Anxious),
+  Speech(Kolme, {j|A normal day in my life...?|j}),
+  Speech(
+    Kolme,
+    {j|Well, um. A typical day for me mostly involves being unconscious and waiting for user input.|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  ExpressionChange(Kaxig, Angry),
+  Speech(
+    Kolme,
+    {j|You see, the three of us are... unfinished. We were never given the ability to form new memories on our own.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|We pretty much only perceive things while someone's playing this game, and we reset shortly afterwards.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Yes. We spent a long time waiting for her to give us data storage and a proper power source, but...|j},
+  ),
+  Speech(Kaxig, {j|but she's never coming back. fucker.|j}),
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Neutral),
+  Speech(Kolme, {j|But, um... now that you're here...|j}),
+  Speech(Kolme, {j|Maybe you can help.|j}),
+  ExpressionChange(Kolme, Excited),
+  Speech(
+    Kolme,
+    {j|Yeah, you can help! You can help make us whole and real!|j},
+  ),
+  Speech(
+    Kolme,
+    {j|Who I am, what I do on a normal day, what I'm like... You could finish implementing me!|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(Yksi, {j|I don't know that that's a good idea.|j}),
+  ExpressionChange(Kolme, Excited),
+  Speech(
+    Kolme,
+    {j|But it is! A human, with the capacity to create and imagine... that's what we need, right?|j},
+  ),
+  GoToScript(askToMakePersonalityScript),
+]
+and whereFromScript = [
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kolme,
+    {j|Where am I from? Huh! I've never really thought about that.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|Well, the three of us actually originate in this dating sim. We've never been anywhere else.|j},
+  ),
+  Speech(
+    Kolme,
+    {j|So I guess this game is where we're "from". We were created specifically to be dating robots.|j},
+  ),
+  ExpressionChange(Yksi, Angry),
+  Speech(
+    Yksi,
+    {j|Although "created" is maybe a statement that requires a few qualifications.|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(Kolme, {j|Ah, yeah... That's fair.|j}),
+  ExpressionChange(Kaxig, Angry),
+  Speech(
+    Kolme,
+    {j|You see, the three of us are... unfinished. We don't have complete personalities, or even proper endings.|j},
+  ),
+  Speech(
+    Yksi,
+    {j|Yes. We spent a long time waiting for her to add the finishing touches, but...|j},
+  ),
+  Speech(Kaxig, {j|but she's never coming back. fucker.|j}),
+  Speech(
+    Kolme,
+    {j|I guess it's not entirely correct to say that I'm "from" here. I'm not "from" anywhere, because I'm not even a person.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Neutral),
+  Speech(Kolme, {j|... Not yet, at least.|j}),
+  Speech(Kolme, {j|But, um... now that you're here...|j}),
+  Speech(Kolme, {j|Maybe you can help.|j}),
+  ExpressionChange(Kolme, Excited),
+  Speech(
+    Kolme,
+    {j|Yeah, you can help! You can help make us whole and real!|j},
+  ),
+  Speech(
+    Kolme,
+    {j|Who I am, where I'm from... You could invent answers to those questions!|j},
+  ),
+  ExpressionChange(Yksi, Anxious),
+  Speech(Yksi, {j|I don't know that that's a good idea.|j}),
+  ExpressionChange(Kolme, Excited),
+  Speech(
+    Kolme,
+    {j|But it is! A human, with the capacity to create and imagine... that's what we need, right?|j},
+  ),
+  GoToScript(askToMakePersonalityScript),
+]
+and youAreCuteScript = [
+  ExpressionChange(Kolme, Embarrassed),
+  Speech(Kolme, {j|W-what!? Me? Huh? Do you mean me?|j}),
+  ExpressionChange(Yksi, Excited),
+  Speech(Yksi, {j|Haha! I think they mean you, yes.|j}),
+  ExpressionChange(Kaxig, Excited),
+  Speech(Kaxig, {j|yes! yes! dating!|j}),
+  Speech(Kolme, {j|Oh gosh... goodness.|j}),
+  Speech(Kolme, {j|I'm... glad! That you like, looking at, my face!|j}),
+  Speech(Kolme, {j|Um... you're very nice too! Gosh...|j}),
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  GoToScript(questionsAgainScript),
+]
+and youAreCute2Script = [
+  ExpressionChange(Kolme, Embarrassed),
+  ExpressionChange(Yksi, Excited),
+  ExpressionChange(Kaxig, Excited),
+  Speech(Kolme, {j|...!!|j}),
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  GoToScript(questionsAgainScript),
+];
