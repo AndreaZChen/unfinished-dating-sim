@@ -217,7 +217,7 @@ and polyculeScript = [
   Speech(Yksi, {j|What? No! We're not dating!|j}),
   Speech(
     Kolme,
-    {j|W-we're literally facets of the same person! We can't date ourselves, that would be weird!|j},
+    {j|W-we're literally facets of the same being! We can't date ourselves, that would be weird!|j},
   ),
   Speech(Kaxig, {j|shrug. i'd be into it.|j}),
   Speech(Yksi, {j|...|j}),
