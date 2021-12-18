@@ -1,5 +1,7 @@
 open Script;
 
+let endScript: list(event) = [];
+
 let rec script: list(Script.event) = [
   ExpressionChange(Yksi, Neutral),
   ExpressionChange(Kaxig, Excited),
@@ -39,7 +41,7 @@ and loveItScript = [
     Kaxig,
     {j|yeah, well. there'll be more opportunities for ass-sucking later. let's just keep going.|j},
   ),
-  GoToScript(script),
+  GoToScript(askAboutKaxigScript),
 ]
 and hateItScript = [
   ExpressionChange(Kaxig, Excited),
@@ -67,5 +69,69 @@ and hateItScript = [
     Kaxig,
     {j|we'll do that one afterwards if there's time. anyway...|j},
   ),
-  GoToScript(script),
-];
+  GoToScript(askAboutKaxigScript),
+]
+and askAboutKaxigScript = [
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kaxig,
+    {j|so we're on a date, right. aren't you gonna try to get to know me?|j},
+  ),
+  Speech(Kaxig, {j|come on, ask me anythin.|j}),
+  Choice([|
+    {text: "How would you describe yourself?", result: describeSelfScript},
+    {
+      text: "What do you like about the deep-fried arcade?",
+      result: whyDeepFriedScript,
+    },
+    {text: "What are some of your interests?", result: interestsScript},
+  |]),
+]
+and describeSelfScript = [
+  ExpressionChange(Kaxig, Neutral),
+  Speech(Kaxig, {j|how would i describe myself?|j}),
+  Speech(Kaxig, {j|i'm a horrid cave gremlin. i live in a dumpster.|j}),
+  Speech(Kaxig, {j|i keep a rancid cheese in my fridge as a little pet.|j}),
+  Speech(
+    Kaxig,
+    {j|i bark like a wild dog at old ladies who pass me on the street.|j},
+  ),
+  Speech(
+    Kaxig,
+    {j|when i eat chocolate bars i just chew right through the entire wrapper.|j},
+  ),
+  Speech(
+    Kaxig,
+    {j|my favorite drink is vodka with a single scrabble tile in the glass. any letter.|j},
+  ),
+  Speech(Kaxig, {j|i wear all-denim outfits on public transport.|j}),
+  Speech(Kaxig, {j|does that answer your question??|j}),
+  Choice([|
+    {text: "Yes", result: answeredQuestionScript},
+    {text: "No", result: didNotAnswerQuestionScript},
+    {text: "You're just like me", result: justLikeMeScript},
+  |]),
+]
+and answeredQuestionScript = [GoToScript(askAboutKaxigScript)]
+and didNotAnswerQuestionScript = [GoToScript(askAboutKaxigScript)]
+and justLikeMeScript = [GoToScript(askAboutKaxigScript)]
+and whyDeepFriedScript = [
+  ExpressionChange(Kaxig, Neutral),
+  Speech(Kaxig, {j|i mean, it kinda rules, right?|j}),
+  Speech(
+    Kaxig,
+    {j|look at this place. full of fucked up shapes and colors.|j},
+  ),
+  Speech(
+    Kaxig,
+    {j|there's an inflated watermark, there's a warped arcade machine monster, there's eyes in the static.|j},
+  ),
+  Speech(
+    Kaxig,
+    {j|i love shit like that. i wanna be someplace where everything feels like it has an unspecified clown illness.|j},
+  ),
+  GoToScript(askAboutKaxigScript),
+]
+and interestsScript = [GoToScript(askAboutKaxigScript)];
