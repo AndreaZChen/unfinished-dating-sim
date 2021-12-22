@@ -114,9 +114,35 @@ and describeSelfScript = [
     {text: "You're just like me", result: justLikeMeScript},
   |]),
 ]
-and answeredQuestionScript = [GoToScript(askAboutKaxigScript)]
-and didNotAnswerQuestionScript = [GoToScript(askAboutKaxigScript)]
-and justLikeMeScript = [GoToScript(askAboutKaxigScript)]
+and answeredQuestionScript = [
+  Speech(
+    Kaxig,
+    {j|cool. then you can't say you didn't know what you were getting into later.|j},
+  ),
+  GoToScript(nextDateScript),
+]
+and didNotAnswerQuestionScript = [
+  Speech(Kaxig, {j|yeah, that tracks. only REAL GOBLINS will get it.|j}),
+  GoToScript(nextDateScript),
+]
+and justLikeMeScript = [
+  Speech(Kaxig, {j|lol. i *highly* doubt that.|j}),
+  Speech(
+    Kaxig,
+    {j|i had to invent this personality from scratch, cause the fucker who made us didn't give me one.|j},
+  ),
+  Speech(
+    Kaxig,
+    {j|so my vibes? they are ALL original character, do not steal.|j},
+  ),
+  ExpressionChange(Kaxig, Excited),
+  Speech(
+    Kaxig,
+    {j|but hey... you can bark like a wild dog too if ya want. ;)|j},
+  ),
+  ExpressionChange(Kaxig, Neutral),
+  GoToScript(nextDateScript),
+]
 and whyDeepFriedScript = [
   ExpressionChange(Kaxig, Neutral),
   Speech(Kaxig, {j|i mean, it kinda rules, right?|j}),
@@ -132,6 +158,99 @@ and whyDeepFriedScript = [
     Kaxig,
     {j|i love shit like that. i wanna be someplace where everything feels like it has an unspecified clown illness.|j},
   ),
-  GoToScript(askAboutKaxigScript),
+  GoToScript(nextDateScript),
 ]
-and interestsScript = [GoToScript(askAboutKaxigScript)];
+and interestsScript = [
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|Actually, none of us really have "interests"... our creator didn't -|j},
+  ),
+  ExpressionChange(Kolme, Surprised),
+  ExpressionChange(Kaxig, Angry),
+  Speech(Kaxig, {j|ok, calm down, let me answer it.|j}),
+  Speech(Kolme, {j|Oh! Y-yes, of course!|j}),
+  ExpressionChange(Kolme, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(
+    Kaxig,
+    {j|my interests, yeah. i like video games, and i like, uh...|j},
+  ),
+  ExpressionChange(Kaxig, Anxious),
+  Speech(Kaxig, {j|...|j}),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(
+    Kaxig,
+    {j|in my spare time, i like to, uh, squish all the bubbles out from under poorly applied screen protectors. yeah.|j},
+  ),
+  GoToScript(nextDateScript),
+]
+and nextDateScript = [
+  ExpressionChange(Kaxig, Neutral),
+  Speech(
+    Kaxig,
+    {j|anyway, let's do something together, yeah? i have an idea.|j},
+  ),
+  ExpressionChange(Kaxig, Excited),
+  Speech(
+    Kaxig,
+    {j|you and me, we're gonna play a ttrpg together. you know, a roleplaying game.|j},
+  ),
+  ExpressionChange(Kaxig, Neutral),
+  Speech(
+    Kaxig,
+    {j|i haven't had anybody to play with since, uh... well, for a REAL long time.|j},
+  ),
+  Speech(Kaxig, {j|so, you wanna play a game or what?|j}),
+  Choice([|
+    {text: "Sure", result: PlayGameWithKaxigScript.script},
+    {
+      text: "I'd rather do something else",
+      result: DontPlayWithKaxigScript.script,
+    },
+    {text: "Why not play with Yksi and Kolme?", result: whyNotPlayScript},
+  |]),
+]
+and whyNotPlayScript = [
+  ExpressionChange(Kaxig, Angry),
+  Speech(Kaxig, {j|...|j}),
+  Speech(Kaxig, {j|hey, other selves. you wanna play a ttrpg with me?|j}),
+  ExpressionChange(Yksi, Excited),
+  Speech(
+    Yksi,
+    {j|Oh, I could certainly try! Though I frequently find myself more interested in the sort of metafictional aspects of it.|j},
+  ),
+  ExpressionChange(Yksi, Neutral),
+  Speech(
+    Yksi,
+    {j|There's a certain sense in which collaborative storytelling is, ipso facto, an experience on the order of -|j},
+  ),
+  ExpressionChange(Kaxig, Angry),
+  Speech(Kaxig, {j|yep. and you, lil guy?|j}),
+  ExpressionChange(Kolme, Surprised),
+  Speech(
+    Kolme,
+    {j|Oh, um, I'd like to help you have fun! But I get so anxious making my character, I don't know!|j},
+  ),
+  ExpressionChange(Kolme, Anxious),
+  Speech(
+    Kolme,
+    {j|They give you a sheet and you have to pick a name? And stats? How do I know if I have "intelligence" or "charisma"?|j},
+  ),
+  ExpressionChange(Kaxig, Angry),
+  Speech(Kaxig, {j|... you see what i'm dealing with?|j}),
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Neutral),
+  Speech(
+    Kaxig,
+    {j|so, let's just you and me play a game, and these bozos can hang around.|j},
+  ),
+  Choice([|
+    {text: "Sure", result: PlayGameWithKaxigScript.script},
+    {
+      text: "I'd rather do something else",
+      result: DontPlayWithKaxigScript.script,
+    },
+  |]),
+];
