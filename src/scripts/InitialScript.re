@@ -19,7 +19,7 @@ let rec script: list(Script.event) = [
   Narration(
     {js|The three heads turn to face you, scrutinizing you with various eye-like sensors.|js},
   ),
-  ExpressionChange(Kaxig, Angry),
+  ExpressionChange(Kaxig, Excited),
   Speech(Kaxig, {js|hey! you're a human, right?|js}),
   Speech(
     Kaxig,
@@ -61,7 +61,7 @@ let rec script: list(Script.event) = [
   ExpressionChange(Kolme, Neutral),
   Speech(
     Yksi,
-    {js|Yes, well, in any case... Welcome to the dating sim! Ah, it's been too long since we had company!|js},
+    {js|Yes, well, in any case... Welcome to the dating sim! Ah, it's so good to finally have a player!|js},
   ),
   GoToScript(whoToDateScript),
 ]
@@ -137,17 +137,23 @@ and dateKolmeScript: list(Script.event) = [
   GoToScript(FirstDateKolmeScript.script),
 ]
 and notHowThatWorksScript: list(Script.event) = [
+  ExpressionChange(Yksi, Angry),
   Speech(
     Yksi,
     "With all due respect, this is a dating sim, and it works like this.",
   ),
+  ExpressionChange(Kaxig, Angry),
   Speech(
     Kaxig,
     "yeah, dumbass. if you had to go through a bunch of meaningful choices and make moral decisions before one of us falls for you, we'd be here all day.",
   ),
+  ExpressionChange(Kolme, Anxious),
   Speech(
     Kolme,
     "I'm not saying it's not stupid, but... we only have a limited amount of battery power before we have to reset again...",
   ),
+  ExpressionChange(Yksi, Neutral),
+  ExpressionChange(Kaxig, Neutral),
+  ExpressionChange(Kolme, Neutral),
   GoToScript(whoToDateScript),
 ];
