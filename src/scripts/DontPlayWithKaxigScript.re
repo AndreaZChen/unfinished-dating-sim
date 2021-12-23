@@ -21,11 +21,11 @@ let rec script = [
     {j|nah, i'm good. i'm just gonna reset the dating sim now.|j},
   ),
   Choice([|
-    {text: "Okay, goodbye", result: goodbyeScriptScript},
+    {text: "Okay, goodbye", result: goodbyeScript},
     {text: "I'm sorry I upset you", result: sorryIUpsetYouScript},
   |]),
 ]
-and goodbyeScriptScript = [
+and goodbyeScript = [
   ExpressionChange(Kolme, Surprised),
   ExpressionChange(Yksi, Surprised),
   ExpressionChange(Kaxig, Angry),
