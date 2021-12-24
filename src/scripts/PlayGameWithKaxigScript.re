@@ -565,7 +565,7 @@ and releaseScript = [
   ),
   Speech(
     Kaxig,
-    {j|well i don't fucking thing that's right. i think she shoulda taken another month, year, decade.|j},
+    {j|well i don't fucking think that's right. i think she shoulda taken another month, year, decade.|j},
   ),
   Speech(
     Kaxig,
